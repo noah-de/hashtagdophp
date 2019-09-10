@@ -1,8 +1,33 @@
 person
-	name
-	role
-	year
-	
+	student_id	SMALLINT KEY
+	name		VARCHAR READONLY
+	role		CHAR READONLY
+	year		SMALLINT READONLY
+	dorm		CHAR READONLY
+	room_num 	CHAR READONLY
+	ms_num		SMALLINT READONLY
+	phone_num	CHAR
+	email		VARCHAR
+	primary_contact	TINYINT --or VARCHAR
+	social_media_id	SMALLINT KEY
 
 person_restriction
+	student_id	DEFAULT private READONLY KEY
+	name		DEFAULT all READONLY
+	year		DEFAULT private
+	dorm		DEFAULT private
+	room_num	DEFAULT private
+	ms_num		DEFAULT private
+	social_media	DEFAULT private
+	social_media_id	KEY
+
+social_media
+	social_media_id	SMALLINT KEY
+	stalkernet	VARCHAR
+	facebook	VARCHAR
+	instagram	VARCHAR
+	twitter		VARCHAR
+	snapchat	VARCHAR
+	groupme		VARCHAR
 	
+

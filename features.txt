@@ -1,0 +1,11 @@
+⁃	how many times individual came up in a search
+⁃	advanced search options
+	⁃	dorm
+	⁃	year
+	⁃	gender
+	⁃	sounds like
+	⁃	name
+⁃	profile options
+	⁃	what information is available to be seen by whom
+	⁃	social media
+	⁃	update picture

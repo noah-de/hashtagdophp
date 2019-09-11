@@ -13,19 +13,19 @@ CREATE TABLE person (
 	primary_contact	TINYINT, --or VARCHAR(16)
 	times_searched	INT,
 	profile_pic	VARCHAR(256),	
-);
+) PRIMARY KEY (social_media);
 
-CREATE TABLE person_restriction (
-	student_id	CHAR(8) DEFAULT private KEY, --READONLY
-	social_media_id	SMALLINT KEY,
+CREATE TABLE student_privacy (
+	student_id	CHAR(8) KEY,
 	
-	name		VARCHAR(128) DEFAULT all READONLY,
-	year		SMALLINT DEFAULT private,
-	dorm		VARCHAR(32) DEFAULT private,
-	room_num	VARCHAR(8) DEFAULT private,
-	ms_num		CHAR(4) DEFAULT private,
-	social_media	BOOL DEFAULT private
-);
+	name		BOOL DEFAULT 1,
+	role		BOOL DEFAULT 1,
+	year		BOOL DEFAULT 0,
+	dorm		BOOL DEFAULT 0,
+	room_num	BOOL DEFAULT 0,
+	ms_num		BOOL DEFAULT 0,
+	social_media	BOOL DEFAULT 0
+) PRIMARY KEY (social_media);
 
 CREATE TABLE social_media (
 	social_media_id	SMALLINT KEY,
@@ -36,5 +36,5 @@ CREATE TABLE social_media (
 	twitter		VARCHAR(128),
 	snapchat	VARCHAR(128),
 	groupme		VARCHAR(128)
-)
+) PRIMARY KEY (social_media);
 

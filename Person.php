@@ -80,10 +80,10 @@ class Student extends Person {
 	public function getRoomNum () {
 		return $this->room_num;
 	}
-	public function setMsNum ($ms_num) {
+	public function setMSNum ($ms_num) {
 		$this->ms_num = $ms_num;
 	}
-	public function getMsNum () {
+	public function getMSNum () {
 		return $this->ms_num;
 	}
 	public function setPhoneNum ($phone_num) {

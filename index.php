@@ -2,6 +2,7 @@
   // if (!isset($_COOKIE['studentID'])) {
   //   header("Location: ./login/index.php");
   // }
+/*
   $db_con['host'] = "10.30.49.96";
   $db_con['port'] = "5432";
   $db_con['user'] = "dophp";
@@ -10,7 +11,7 @@
   $conn_string = "host=" . $db_con['host'] . " port=" . $db_con['port'] . " user=" . $db_con['user'] . " password=" . $db_con['password'] . " dbname=" . $db_con['dbname'];
   $db = pg_connect($conn_string);
 
-  echo $conn_string;
+  echo $conn_string; */
 
   // $cookie_studentID = $_COOKIE['studentID'];
 ?>
@@ -32,7 +33,21 @@
   </head>
   <body>
     <div class="container">
-    	
+      <div class="row" id="reg_search_cont">
+        <div class="col-md-10">
+          <form method="POST" action="">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">GO</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="row" id="adv_search_cont">
+        <div class="col-md-10"></div>
+      </div>
     </div>
-	</body>
+  </body>
 </html>

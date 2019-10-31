@@ -1,9 +1,9 @@
 body {
-	padding: 1em;
+	/*padding: 1em;*/
 	background-color: #eeeeee;
 	font-family: arial;
-  	font-size: 16px;
-  	margin: 0;
+	font-size: 16px;
+	margin: 0;
 }
 
 pre {
@@ -51,6 +51,10 @@ ol {
   margin: 0px;
   color: #990000;
   font-size: 28px;
+}
+
+.westmont {
+  background-color: rgba(163, 30, 55, 0.9)!important;
 }
 
 .button {

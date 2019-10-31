@@ -32,6 +32,35 @@
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
+      <a class="navbar-brand" href="#">
+        <img src="./images/westmont.png" height="30" alt="">
+      </a>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#">ABOUT</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">ACADEMICS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">ADMISSIONS & AID</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">STUDENT LIFE</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">GIVING</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">ATHLETICS</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
     <div class="container">
       <div class="row" id="reg_search_cont">
         <div class="col-md-10">

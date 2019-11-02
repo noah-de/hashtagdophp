@@ -15,6 +15,16 @@
 
   // $cookie_studentID = $_COOKIE['studentID'];
 ?>
+<?php 
+	$basic_search_query = $_POST["basic_search_query"];
+	$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%';"; //postgres command
+	$reg_search_query = pg_query($db, $reg_search_query_string);
+	$search_results = pg_fetch_all($reg_search_query); //runs postgres command on db
+
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -64,9 +74,9 @@
     <div class="container">
       <div class="row" id="reg_search_cont">
         <div class="col-md-10">
-          <form method="POST" action="">
+          <form method="POST" action="./index.php">
             <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2">
+              <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button">GO</button>
               </div>
@@ -77,6 +87,20 @@
       <div class="row" id="adv_search_cont">
         <div class="col-md-10"></div>
       </div>
+    </div>
+    <div class="container">
+    	<ul id="results">
+    		
+    	</ul>
+    	<?php
+    		foreach ($search_results as $key=>$value) {
+    			echo "<li>"
+    			echo "<img src=\"" . $value->profile_pic . "\">";
+    			echo "<p>" . $value->firstname . " " . $value->lastname . "</p>"
+    		}
+
+
+    	?>
     </div>
   </body>
 </html>

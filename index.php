@@ -2,26 +2,27 @@
   // if (!isset($_COOKIE['studentID'])) {
   //   header("Location: ./login/index.php");
   // }
-/*
-  $db_con['host'] = "10.30.49.96";
-  $db_con['port'] = "5432";
+
+  $db_con['host'] = "bminer-apps";
+  $db_con['port'] = "5433";
   $db_con['user'] = "dophp";
   $db_con['password'] = "Nalkerstet!";
-  $db_con['dbname'] = "stalkernet";
+  $db_con['dbname'] = "dophp";
   $conn_string = "host=" . $db_con['host'] . " port=" . $db_con['port'] . " user=" . $db_con['user'] . " password=" . $db_con['password'] . " dbname=" . $db_con['dbname'];
   $db = pg_connect($conn_string);
 
-  echo $conn_string; */
+  // echo $conn_string; 
 
-  // $cookie_studentID = $_COOKIE['studentID'];
+  $cookie_studentID = $_COOKIE['studentID'];
 ?>
 <?php 
 	$basic_search_query = $_POST["basic_search_query"];
-	$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%';"; //postgres command
+  $reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
+	// $reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%';"; //postgres command
 	$reg_search_query = pg_query($db, $reg_search_query_string);
-	$search_results = pg_fetch_all($reg_search_query); //runs postgres command on db
+	$search_results = pg_fetch_all_columns($reg_search_query); //runs postgres command on db
 
-
+  var_dump($search_results);
 
 
  ?>
@@ -91,18 +92,18 @@
     <div class="container">
     	<ul id="results">
     	<?php
-    		if (bool empty($search_results)) {
-    			echo "<p> No results were found. </p>";
+    		// if (bool empty($search_results)) {
+    		// 	echo "<p> No results were found. </p>";
 
-    		} else {
-    			foreach ($search_results as $key=>$value) {
-    				echo "<li>";
-    				echo "<img src=\"" . $value->profile_pic_url . "\">";
-    				echo "<p>" . $value->firstname . " " . $value->lastname . "</p>";
-    				echo "<p>" . $value->dorm . "</p>";
-    				echo "</li>";
-    			}
-    		}
+    		// } else {
+    		// 	foreach ($search_results as $key=>$value) {
+    		// 		echo "<li>";
+    		// 		echo "<img src=\"" . $value->profile_pic_url . "\">";
+    		// 		echo "<p>" . $value->firstname . " " . $value->lastname . "</p>";
+    		// 		echo "<p>" . $value->dorm . "</p>";
+    		// 		echo "</li>";
+    		// 	}
+    		// }
     	?>
     	</ul>
     </div>

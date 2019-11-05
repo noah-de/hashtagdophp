@@ -1,31 +1,3 @@
-<?php
-  // if (!isset($_COOKIE['studentID'])) {
-  //   header("Location: ./login/index.php");
-  // }
-
-  $db_con['host'] = "bminer-apps";
-  $db_con['port'] = "5433";
-  $db_con['user'] = "dophp";
-  $db_con['password'] = "Nalkerstet!";
-  $db_con['dbname'] = "dophp";
-  $conn_string = "host=" . $db_con['host'] . " port=" . $db_con['port'] . " user=" . $db_con['user'] . " password=" . $db_con['password'] . " dbname=" . $db_con['dbname'];
-  $db = pg_connect($conn_string);
-
-  // echo $conn_string; 
-
-  $cookie_studentID = $_COOKIE['studentID'];
-?>
-<?php 
-	$basic_search_query = $_POST["basic_search_query"];
-  //$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
-	 $reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%';"; //postgres command
-	$reg_search_query = pg_query($db, $reg_search_query_string);
-	$search_results = pg_fetch_all_columns($reg_search_query); //runs postgres command on db
-
-  var_dump($search_results);
-
-
- ?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -51,7 +23,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
+            <a class="nav-link" href="#">ABOUT</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">ACADEMICS</a>
@@ -90,22 +62,18 @@
       </div>
     </div>
     <div class="container">
-    	<ul id="results">
-    	<?php
-    		if (empty($search_results)) {
-    		 	echo "<p> No results were found. </p>";
+      <?php 
+        //gets current page URL
+        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 
+                "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .  
+                $_SERVER['REQUEST_URI'];
+        $url_query = parse_url($url, PHP_URL_QUERY); //gets just the url query
 
-    		 } else {
-    		 	foreach ($search_results as $key=>$value) {
-    		 		echo "<li>";
-    		 		echo "<img src=\"" . $value->profile_pic_url . "\">";
-    		 		echo "<p>" . $value->firstname . " " . $value->lastname . "</p>";
-    		 		echo "<p>" . $value->dorm . "</p>";
-    		 		echo "</li>";
-    		 	}
-    		 }
-    	?>
-    	</ul>
+        $command_to_get_student_info = "SELECT * FROM person WHERE '" . $url_query . "' LIKE '%' || firstname || '%';";
+        $reg_search_query = pg_query($db, $command_to_get_student_info);
+        $student_profile_info = pg_fetch_all($reg_search_query); //runs postgres command on db
+        echo "<p> </p>";
+      ?>
     </div>
   </body>
 </html>

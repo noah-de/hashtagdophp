@@ -17,8 +17,8 @@
 ?>
 <?php 
 	$basic_search_query = $_POST["basic_search_query"];
-  //$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
-	 $reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%';"; //postgres command
+  $reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
+	//$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%';"; //postgres command
 	$reg_search_query = pg_query($db, $reg_search_query_string);
 	$search_results = pg_fetch_all_columns($reg_search_query); //runs postgres command on db
 

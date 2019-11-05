@@ -42,12 +42,15 @@
     <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="./css/styles.css">
   </head>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
+    
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
       <a class="navbar-brand" href="#">
         <img src="./images/westmont.png" height="30" alt="">
       </a>
+      <div class="collapse navbar-collapse" id="navbarNav">
+	<nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
+      </div
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">

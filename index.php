@@ -98,9 +98,9 @@
     		 } else {
     		 	foreach ($search_results as $key=>$value) {
     		 		echo "<li>";
-    		 		echo "<img src=\"" . $value->profile_pic_url . "\">";
-    		 		echo "<p>" . $value->firstname . " " . $value->lastname . "</p>";
-    		 		echo "<p>" . $value->dorm . "</p>";
+    		 		echo "<img src=\"" . $value->getProfilePicURL . "\">";
+    		 		echo "<p>" . $value->getFirstname . " " . $value->getLastname . "</p>";
+    		 		echo "<p>" . $value->getDorm . "</p>";
     		 		echo "</li>";
     		 	}
     		 }

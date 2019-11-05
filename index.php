@@ -44,6 +44,7 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
       <a class="navbar-brand" href="#">
         <img src="./images/westmont.png" height="30" alt="">
       </a>

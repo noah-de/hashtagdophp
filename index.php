@@ -50,7 +50,7 @@
       </a>
       <div class="collapse navbar-collapse" id="navbarNav">
 	<nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
-      </div
+      </div>
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">

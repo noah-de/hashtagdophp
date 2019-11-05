@@ -40,7 +40,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">ABOUT</a>
+            <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">ACADEMICS</a>

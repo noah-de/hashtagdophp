@@ -2,6 +2,8 @@
 require 'Person.php'
 
 $bryan = new Student("0523842");
+$bryan->setFirstname("Bryan");
+$bryan->setLastname("Miner");
 $bryan->setYear(4);
 $bryan->setDorm("Armington");
 $bryan->setRoomNum("B 206");
@@ -12,6 +14,8 @@ $dylan = new Student("0123456");
 $bryan->setRoommates(array($dylan->getStudentID));
 
 $drew = new Student("0583372");
+$drew->setFirstname("Drew");
+$drew->setLastname("Austin");
 $drew->setYear(4);
 $drew->setDorm("off-campus");
 $drew->setRoomNum("811");

@@ -54,19 +54,19 @@
             <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">ACADEMICS</a>
+            <a class="nav-link" href="https://www.westmont.edu/academics">ACADEMICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">ADMISSIONS & AID</a>
+            <a class="nav-link" href="https://www.westmont.edu/admissions-aid">ADMISSIONS & AID</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">STUDENT LIFE</a>
+            <a class="nav-link" href="https://www.westmont.edu/student-life">STUDENT LIFE</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">GIVING</a>
+            <a class="nav-link" href="https://www.westmont.edu/giving">GIVING</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">ATHLETICS</a>
+            <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
           </li>
         </ul>
       </div>

@@ -92,7 +92,7 @@
     <div class="container">
     	<ul id="results">
     	<?php
-    		if (bool empty($search_results)) {
+    		if (empty($search_results)) {
     		 	echo "<p> No results were found. </p>";
 
     		 } else {

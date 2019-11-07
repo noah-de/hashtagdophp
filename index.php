@@ -76,9 +76,17 @@
       </div>
     </nav>
    <br>
-    <div>
-	<h1> Stalker Net </h1>
-    </div>
+   
+	
+
+
+   <div class="hero-image">
+	 <div class="hero-text">
+	    <h1>Welomce to Stalker Net </h1>
+	  </div>
+   </div>
+		
+
    <br>
     <div class="container">
       <div class="row" id="reg_search_cont">

@@ -17,12 +17,13 @@
 ?>
 <?php 
 	$basic_search_query = $_POST["basic_search_query"];
-  $reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
-	//$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%';"; //postgres command
+  //$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
+	$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%';"; //postgres command
 	$reg_search_query = pg_query($db, $reg_search_query_string);
-	$search_results = pg_fetch_all_columns($reg_search_query); //runs postgres command on db
+  $search_results = pg_fetch_all($reg_search_query);
+	//$search_results = pg_fetch_assoc($reg_search_query); //runs postgres command on db
 
-  var_dump($search_results);
+  //var_dump($search_results);
 
 
  ?>
@@ -93,7 +94,10 @@
         <div class="col-md-10">
           <form method="POST" action="./index.php">
             <div class="input-group mb-3">
-              <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2">
+              <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
+              <?php 
+              echo "value=\"" . $basic_search_query . "\"";
+              ?>>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button">GO</button>
               </div>
@@ -112,11 +116,15 @@
     		 	echo "<p> No results were found. </p>";
 
     		 } else {
+          // var_dump($search_results);
     		 	foreach ($search_results as $key=>$value) {
+
+            // var_dump($value);
+
     		 		echo "<li>";
-    		 		echo "<img src=\"" . $value->getProfilePicURL . "\">";
-    		 		echo "<p>" . $value->getFirstname . " " . $value->getLastname . "</p>";
-    		 		echo "<p>" . $value->getDorm . "</p>";
+    		 		echo "<img src=\"" . $value['profile_pic_url'] . "\">";
+    		 		echo "<p>" . $value['firstname'] . " " . $value['lastname'] . "</p>";
+    		 		echo "<p>" . $value['dorm'] . "</p>";
     		 		echo "</li>";
     		 	}
     		 }

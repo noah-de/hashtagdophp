@@ -125,6 +125,7 @@
     		 		echo "<img src=\"" . $value['profile_pic_url'] . "\">";
     		 		echo "<p>" . $value['firstname'] . " " . $value['lastname'] . "</p>";
     		 		echo "<p>" . $value['dorm'] . "</p>";
+            echo "<p><a href=\"http://bminer-apps/profile/" . $value['student_id'] . "\">Profile</a>";
     		 		echo "</li>";
     		 	}
     		 }

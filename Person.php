@@ -115,4 +115,52 @@ class Staff extends Person {
 	
 }
 
+class StudentHelper extends Student {
+	private $db_con = array();
+	private $db = "";
+
+	/*
+	 * private $student_id = "";
+	 * private $firstname = "";
+	 * private $lastname = "";
+	 * private $role = "";
+	 * private $email = "";
+	 * private $times_searched = 0;
+	 * private $year = 0;
+	 * private $dorm = "";
+	 * private $room_num = "";
+	 * private $ms_num = 0;
+	 * private $phone_num = "";
+	 * private $primary_contact = "";
+	 * private $roommates = array();
+	 */
+
+	private function connect_db () {
+		$this->db_con['host'] = "bminer-apps";
+		$this->db_con['port'] = "5433";
+		$this->db_con['user'] = "dophp";
+		$this->db_con['password'] = "Nalkerstet!";
+		$this->db_con['dbname'] = "dophp";
+		$this->db_con['string'] = "host=" . $this->db_con['host'] . " port=" . $this->db_con['port'] . " user=" . $this->db_con['user'] . " password=" . $this->db_con['password'] . " dbname=" . $this->db_con['dbname'];
+
+		$this->db = pg_connect($this->db_con['string']);
+	}
+
+	function __construct($student_id) {
+		$this->student_id = $student_id;
+		$this->connect_db();
+	}
+
+	public function get_all () {
+		$query_string = "SELECT * FROM person WHERE student_id='" . $this->student_id . "';";
+		$prepare_query = pg_query($this->db, $query_string);
+		$results = pg_fetch_assoc($prepare_query);
+		$this->firstname = $results['firstname'];
+		echo $this->firstname;
+	}
+}
+
+$bryan = new StudentHelper("0523842");
+$bryan->get_all();
+
 ?>

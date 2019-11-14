@@ -63,21 +63,21 @@
     </div>
     <div class="container">
       <?php 
-        //gets current page URL
-        // ?ids = student_id
-        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 
-                "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .  
-                $_SERVER['REQUEST_URI'];
-        $url_query = parse_url($url, PHP_URL_QUERY); //gets just the url query
-
-        $sid = $url_query;
-
-        //assuming above code works
+        $sid = $_GET['sid'];
         $student = new StudentHelper($sid);
         $student->set_all();
 
         if(isset($_COOKIE['student_id'])) {
-          
+          if($sid == $_COOKIE['student_id']) {
+            //content is editable
+            echo 'cookie :------)';
+            echo $student->getFirstname();
+
+          }
+        } else {
+          //just display info
+          echo 'no cookie :------(';
+          echo $student->getFirstname();
         }
 
 

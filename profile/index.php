@@ -107,11 +107,7 @@
               ?>
             </ul>
           </li>
-      </ul>a
+      </ul>
     </div>
-    <script type="text/javascript">
-      //js linked to button to make content editable
-
-    </script>
   </body>
 </html>

@@ -1,3 +1,11 @@
+<?php
+
+if (isset($_COOKIE['student_id'])) {
+  
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

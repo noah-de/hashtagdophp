@@ -6,6 +6,7 @@ class Person {
 	private $role = "";
 	private $email = "";
 	private $times_searched = 0;
+	private $profile_pic_url = "";
 
 	function __construct() {
 
@@ -40,6 +41,14 @@ class Person {
 	}
 	public function getSearchedNum () {
 		return $this->searched_num;
+	}
+
+	public function setProfilePicURL ($profile_pic_url) {
+		$this->profile_pic_url = $profile_pic_url;
+	}
+
+	public function getProfilePicURL () {
+		return this->profile_pic_url;
 	}
 }
 
@@ -172,8 +181,25 @@ class StudentHelper extends Student {
 		$this->setMSNum($person['ms_num']);
 		$this->setPhoneNum($person['phone_num']);
 		$this->setPrimaryContact($person['primary_contact']);
-		$this->setRoommates($person['roommates']);
+		$this->setRoommates();
 	}
+
+	public function setRoommates () {
+		$query_string = "SELECT roommate FROM roommate WHERE student='" . $this->student_id . "';";
+		$prepare_query = pg_query($this->db, $query_string);
+		$roommates = pg_fetch_all($prepare_query); //array of 1 or 2 sids
+	}
+
+	public function getRoommateInfo () {
+		$roommate_info = array();
+		foreach ($this->roommates as $roommate) {
+			$query_string = "SELECT firstname, lastname, profile_pic_url FROM person WHERE student_id='" . $roommate . "';";
+			$prepare_query = pg_query($this->db, $query_string);
+			push($roommate_info, pg_fetch_assoc($prepare_query));
+		}
+		return $roommate_info;
+	}
+
 }
 
 $bryan = new StudentHelper("0523842");

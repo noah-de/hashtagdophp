@@ -62,6 +62,8 @@
       </div>
     </div>
     <div class="container">
+      
+
       <?php 
         $sid = $_GET['sid'];
         $student = new StudentHelper($sid);
@@ -72,6 +74,8 @@
             //content is editable
             echo 'cookie :------)';
             echo $student->getFirstname();
+            echo '<button> biggest dicks </button>'; //button to link to js
+
 
           }
         } else {
@@ -79,10 +83,35 @@
           echo 'no cookie :------(';
           echo $student->getFirstname();
         }
-
-
-
       ?>
+
+      <ul> 
+        <!-- todo: check if student allows info to be seen -->
+        <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname() ?></li>
+        <li> <img src= <?php echo $student->getProfilePicURL() ?>></li>
+        <li>dorm: <?php echo $student->getDorm() ?></li>
+        <li>email: <?php echo $student->getEmail() ?></li>
+        <li>year: <?php echo $student->getYear() ?></li>
+        <li>mailbox: <?php echo $student->getMSNum() ?></li>
+        <li>phone number: <?php echo $student->getPhoneNum() ?></li>
+        <li>roommates: 
+            <ul>
+              <?php 
+                foreach ($student->getRoommates() as $roommate) {
+                  echo "<li>";
+                  echo "<img src=\"" . $roommate['profile_pic_url'] . "\">";
+                  echo "<p>" . $value['firstname'] . " " . $roommate['lastname'] . "</p>";
+                  echo "<p><a href=\"http://bminer-apps/profile/?sid=" . $roommate . "\">Profile</a>";
+                  echo "</li>";
+                }
+              ?>
+            </ul>
+          </li>
+      </ul>a
     </div>
+    <script type="text/javascript">
+      //js linked to button to make content editable
+
+    </script>
   </body>
 </html>

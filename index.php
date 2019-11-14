@@ -73,6 +73,9 @@
           <li class="nav-item">
             <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
           </li>
+	   <li class="nav-item">
+            <a class="nav-link" href="login.php">LOGIN</a>
+          </li>
         </ul>
       </div>
     </nav>
@@ -83,7 +86,7 @@
 
    <div class="hero-image">
 	 <div class="hero-text" align="center">
-	    <h1>Welomce to Westmont Student Finder</h1>
+	    <h1>Welcome to Westmont Student Finder</h1>
 	  </div>
    </div>
 		

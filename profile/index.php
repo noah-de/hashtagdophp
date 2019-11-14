@@ -62,20 +62,52 @@
       </div>
     </div>
     <div class="container">
+      
+
       <?php 
-        //gets current page URL
-        // ?ids = student_id
-        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 
-                "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .  
-                $_SERVER['REQUEST_URI'];
-        $url_query = parse_url($url, PHP_URL_QUERY); //gets just the url query
+        $sid = $_GET['sid'];
+        $student = new StudentHelper($sid);
+        $student->set_all();
 
-        $command_to_get_student_info = "SELECT * FROM person WHERE '" . $url_query . "' LIKE '%' || student_id || '%';";
-        $reg_search_query = pg_query($db, $command_to_get_student_info);
-        $student_profile_info = pg_fetch_row($reg_search_query); //runs postgres command on db
-        echo "<p>" . $value['firstname'] . " " . $value['lastname'] . "</p>";
+        if(isset($_COOKIE['student_id'])) {
+          if($sid == $_COOKIE['student_id']) {
+            //content is editable
+            echo 'cookie :------)';
+            echo $student->getFirstname();
+            echo '<button> biggest dicks </button>'; //button to link to js
 
+
+          }
+        } else {
+          //just display info
+          echo 'no cookie :------(';
+          echo $student->getFirstname();
+        }
       ?>
+
+      <ul> 
+        <!-- todo: check if student allows info to be seen -->
+        <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname() ?></li>
+        <li> <img src= <?php echo $student->getProfilePicURL() ?>></li>
+        <li>dorm: <?php echo $student->getDorm() ?></li>
+        <li>email: <?php echo $student->getEmail() ?></li>
+        <li>year: <?php echo $student->getYear() ?></li>
+        <li>mailbox: <?php echo $student->getMSNum() ?></li>
+        <li>phone number: <?php echo $student->getPhoneNum() ?></li>
+        <li>roommates: 
+            <ul>
+              <?php 
+                foreach ($student->getRoommates() as $roommate) {
+                  echo "<li>";
+                  echo "<img src=\"" . $roommate['profile_pic_url'] . "\">";
+                  echo "<p>" . $value['firstname'] . " " . $roommate['lastname'] . "</p>";
+                  echo "<p><a href=\"http://bminer-apps/profile/?sid=" . $roommate . "\">Profile</a>";
+                  echo "</li>";
+                }
+              ?>
+            </ul>
+          </li>
+      </ul>
     </div>
   </body>
 </html>

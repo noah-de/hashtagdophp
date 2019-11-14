@@ -14,9 +14,23 @@ body, html {
 }
 
 
+.bg-img {
+  /* The image used */
+  background-image: url("/images/westmont.lib.jpg");
+
+  min-height: 380px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+
 /* Add styles to the form container */
 .container {
-  position: left;
+  position: center;
   right: 0;
   margin: 20px;
   max-width: 300px;

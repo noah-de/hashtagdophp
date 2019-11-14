@@ -70,10 +70,17 @@
                 $_SERVER['REQUEST_URI'];
         $url_query = parse_url($url, PHP_URL_QUERY); //gets just the url query
 
-        $command_to_get_student_info = "SELECT * FROM person WHERE '" . $url_query . "' LIKE '%' || student_id || '%';";
-        $reg_search_query = pg_query($db, $command_to_get_student_info);
-        $student_profile_info = pg_fetch_row($reg_search_query); //runs postgres command on db
-        echo "<p>" . $value['firstname'] . " " . $value['lastname'] . "</p>";
+        $sid = $url_query;
+
+        //assuming above code works
+        $student = new StudentHelper($sid);
+        $student->set_all();
+
+        if(isset($_COOKIE['student_id'])) {
+          
+        }
+
+
 
       ?>
     </div>

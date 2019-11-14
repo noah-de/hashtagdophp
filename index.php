@@ -74,7 +74,7 @@
             <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
           </li>
 	   <li class="nav-item">
-            <a class="nav-link" href="login.php">LOGIN</a>
+            <button class="nav-link" href="/login.php/login.php">LOGIN</button>
           </li>
         </ul>
       </div>

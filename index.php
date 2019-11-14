@@ -24,6 +24,21 @@ $search_results = pg_fetch_all($reg_search_query);
 //$search_results = pg_fetch_assoc($reg_search_query); //runs postgres command on db
 
 //var_dump($search_results);
+
+/**
+ * Pagination
+ * 
+ * desc: the janky as hell, works cited– straight outta my ass process that somewhat resembles the functionality of pagination.
+ *   when the number of results returned is greater than 10, the first 10 results will, remaining results will displayed on the next pages
+ * 
+ * vars:
+ *   $current_page
+ *   $next_page
+ *   $previous_page
+ *   $page_query
+ *   $_GET['page']
+ *   $num_results
+ */
 $current_page = 0;
 $next_page = 0;
 $previous_page = 0;

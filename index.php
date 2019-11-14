@@ -81,8 +81,8 @@
 
 
    <div class="hero-image">
-	 <div class="hero-text">
-	    <h1>Welomce to Stalker Net </h1>
+	 <div class="hero-text" align="center">
+	    <h1>Welomce to Westmont Student Finder</h1>
 	  </div>
    </div>
 		

@@ -29,7 +29,11 @@ $search_results = pg_fetch_all($reg_search_query);
  * Pagination
  * 
  * desc: the janky as hell, works cited– straight outta my ass process that somewhat resembles the functionality of pagination.
- *   when the number of results returned is greater than 10, the first 10 results will, remaining results will displayed on the next pages
+ *   when the number of results returned is greater than 10, the first 10 results will be displayed on page 1, remaining results will displayed on the following pages
+ * psql LIMIT query calculated based on
+ *   while page_num > 2; LIMIT = (page_num - 1) / 10
+ * if results are greater than 10, a page 2 option will be displayed
+ *   having no page number query implies ?page=1
  * 
  * vars:
  *   $current_page

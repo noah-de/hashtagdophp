@@ -64,15 +64,17 @@
     <div class="container">
       <?php 
         //gets current page URL
+        // ?ids = student_id
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 
                 "https" : "http") . "://" . $_SERVER['HTTP_HOST'] .  
                 $_SERVER['REQUEST_URI'];
         $url_query = parse_url($url, PHP_URL_QUERY); //gets just the url query
 
-        $command_to_get_student_info = "SELECT * FROM person WHERE '" . $url_query . "' LIKE '%' || firstname || '%';";
+        $command_to_get_student_info = "SELECT * FROM person WHERE '" . $url_query . "' LIKE '%' || student_id || '%';";
         $reg_search_query = pg_query($db, $command_to_get_student_info);
-        $student_profile_info = pg_fetch_all($reg_search_query); //runs postgres command on db
-        echo "<p> </p>";
+        $student_profile_info = pg_fetch_row($reg_search_query); //runs postgres command on db
+        echo "<p>" . $value['firstname'] . " " . $value['lastname'] . "</p>";
+
       ?>
     </div>
   </body>

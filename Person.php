@@ -155,8 +155,24 @@ class StudentHelper extends Student {
 		$query_string = "SELECT * FROM person WHERE student_id='" . $this->student_id . "';";
 		$prepare_query = pg_query($this->db, $query_string);
 		$results = pg_fetch_assoc($prepare_query);
-		$this->firstname = $results['firstname'];
-		echo $this->firstname;
+		// $this->firstname = $results['firstname'];
+		// echo $this->firstname;
+	}
+
+	public function set_all () {
+		$person = $this->get_all();
+		$this->setFirstname($person['firstname']);
+		$this->setLastname($person['lastname']);
+		$this->setRole($person['role']);
+		$this->setEmail($person['email']);
+		$this->setSearchedNum($person['searched_num']);
+		$this->setYear($person['year']);
+		$this->setDorm($person['dorm']);
+		$this->setRoomNum($person['room_num']);
+		$this->setMSNum($person['ms_num']);
+		$this->setPhoneNum($person['phone_num']);
+		$this->setPrimaryContact($person['primary_contact']);
+		$this->setRoommates($person['roommates']);
 	}
 }
 

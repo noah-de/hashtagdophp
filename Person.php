@@ -128,7 +128,7 @@ class StudentHelper extends Student {
 	private $db_con = array();
 	private $db = "";
 
-	/*
+	/* available vars (so you don't have to look through the other classes above)
 	 * private $student_id = "";
 	 * private $firstname = "";
 	 * private $lastname = "";
@@ -160,6 +160,7 @@ class StudentHelper extends Student {
 		$this->connect_db();
 	}
 
+	// gets all information about student by student_id from db query
 	public function get_all () {
 		$query_string = "SELECT * FROM person WHERE student_id='" . $this->student_id . "';";
 		$prepare_query = pg_query($this->db, $query_string);
@@ -170,6 +171,7 @@ class StudentHelper extends Student {
 
 	}
 
+	// sets all data in object from get_all()
 	public function set_all () {
 		$person = $this->get_all();
 		$this->setFirstname($person['firstname']);
@@ -186,12 +188,15 @@ class StudentHelper extends Student {
 		$this->setRoommates();
 	}
 
+	// sets $this->roommates to array of student_ids of roommates from roommates table where the student column is equal to this student's student_id
 	public function setRoommates () {
 		$query_string = "SELECT roommate FROM roommates WHERE student='" . $this->student_id . "';";
 		$prepare_query = pg_query($this->db, $query_string);
 		$this->roommates = pg_fetch_all($prepare_query); //array of 1 or 2 student_ids
 	}
 
+	// gets necessary info of roommates (students) by student_ids for profile page
+	// should this create a new Student() object?
 	public function getRoommatesInfo () {
 		$roommates_info = array();
 		foreach ($this->roommates as $roommate) {

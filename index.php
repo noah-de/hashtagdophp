@@ -18,7 +18,7 @@ $cookie_studentID = $_COOKIE['student_id'];
 
 $basic_search_query = $_POST['basic_search_query'];
 //$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
-$reg_search_query_string = "SELECT student_id, firstname, lastname, dorm, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; //postgres command
+$reg_search_query_string = "SELECT student_id, firstname, lastname, dorm, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
 $reg_search_query = pg_query($db, $reg_search_query_string);
 $search_results = pg_fetch_all($reg_search_query);
 //$search_results = pg_fetch_assoc($reg_search_query); //runs postgres command on db
@@ -49,7 +49,6 @@ $previous_page = 0;
 
 if (count($search_results) > 10) {
   $page_query = (isset($_GET['page'])) ? $_GET['page'] : 0;
-  $limited_search_query_string = "SELECT student_id, firstname, lastname, dorm, profile_pic_url FROM person WHERE '" . $basic_search_query . "' LIKE '%' || firstname || '%' OR '" . $basic_search_query . "' LIKE '%' || lastname || '%' LIMIT;";
 
   if ($page_query == 0) {
     $current_page = 1;
@@ -61,6 +60,7 @@ if (count($search_results) > 10) {
     $next_page = $page_query + 1;
     $previous_page = $page_query - 1;
   }
+  $limited_search_query_string = "SELECT student_id, firstname, lastname, dorm, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
 }
 
 ?>

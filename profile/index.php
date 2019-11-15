@@ -1,3 +1,9 @@
+<?php
+
+require('../Person.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,17 +13,17 @@
 
     <title>Stalkernet</title>
 
-    <script type="text/javascript" src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="./js/script.js"></script>
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../js/script.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
       <a class="navbar-brand" href="#">
-        <img src="./images/westmont.png" height="30" alt="">
+        <img src="../images/westmont.png" height="30" alt="">
       </a>
 
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -44,7 +50,7 @@
       </div>
     </nav>
 
-    <div class="container">
+    <!-- <div class="container">
       <div class="row" id="reg_search_cont">
         <div class="col-md-10">
           <form method="POST" action="./index.php">
@@ -60,16 +66,16 @@
       <div class="row" id="adv_search_cont">
         <div class="col-md-10"></div>
       </div>
-    </div>
+    </div> -->
     <div class="container">
       
 
       <?php 
-        $sid = $_GET['sid'];
-        $student = new StudentHelper($sid);
+        $student_id = $_GET['sid'];
+        $student = new StudentHelper($student_id);
         $student->set_all();
 
-        if(isset($_COOKIE['student_id'])) {
+        /*if(isset($_COOKIE['student_id'])) {
           if($sid == $_COOKIE['student_id']) {
             //content is editable
             echo 'cookie :------)';
@@ -82,32 +88,34 @@
           //just display info
           echo 'no cookie :------(';
           echo $student->getFirstname();
-        }
+        }*/
       ?>
 
       <ul> 
         <!-- todo: check if student allows info to be seen -->
-        <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname() ?></li>
-        <li> <img src= <?php echo $student->getProfilePicURL() ?>></li>
-        <li>dorm: <?php echo $student->getDorm() ?></li>
-        <li>email: <?php echo $student->getEmail() ?></li>
-        <li>year: <?php echo $student->getYear() ?></li>
-        <li>mailbox: <?php echo $student->getMSNum() ?></li>
-        <li>phone number: <?php echo $student->getPhoneNum() ?></li>
+        <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
+        <li> <img src="<?php echo $student->getProfilePicURL(); ?>"></li>
+        <li>dorm: <?php echo $student->getDorm(); ?></li>
+        <li>email: <?php echo $student->getEmail(); ?></li>
+        <li>year: <?php echo $student->getYear(); ?></li>
+        <li>mailbox: <?php echo $student->getMSNum(); ?></li>
+        <li>phone number: <?php echo $student->getPhoneNum(); ?></li>
         <li>roommates: 
             <ul>
-              <?php 
-                foreach ($student->getRoommates() as $roommate) {
+              <?php
+                var_dump($student->setRoommates());
+                $getRoommatesInfo = $student->getRoommatesInfo();
+                foreach ($getRoommatesInfo as $roommate) {
                   echo "<li>";
                   echo "<img src=\"" . $roommate['profile_pic_url'] . "\">";
                   echo "<p>" . $value['firstname'] . " " . $roommate['lastname'] . "</p>";
-                  echo "<p><a href=\"http://bminer-apps/profile/?sid=" . $roommate . "\">Profile</a>";
+                  echo "<p><a href=\"http://10.30.49.240/profile/?sid=" . $roommate['student_id'] . "\">Profile</a>";
                   echo "</li>";
                 }
               ?>
             </ul>
           </li>
-      </ul>
-    </div>
+        </ul>
+      </div>
   </body>
 </html>

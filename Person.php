@@ -48,7 +48,7 @@ class Person {
 	}
 
 	public function getProfilePicURL () {
-		return this->profile_pic_url;
+		return $this->profile_pic_url;
 	}
 }
 
@@ -108,12 +108,12 @@ class Student extends Person {
 		return $this->primary_contact;
 	}
 	// must be passed in as an array
-	public function setRoommates ($roommates) {
+	/*public function setRoommates ($roommates) {
 		$this->roommates = $roommates;
-	}
-	public function getRoommates () {
+	}*/
+	/*public function getRoommates () {
 		return $this->roommates;
-	}
+	}*/
 }
 
 class Faculty extends Person {
@@ -163,9 +163,11 @@ class StudentHelper extends Student {
 	public function get_all () {
 		$query_string = "SELECT * FROM person WHERE student_id='" . $this->student_id . "';";
 		$prepare_query = pg_query($this->db, $query_string);
-		$results = pg_fetch_assoc($prepare_query);
+		// $results = pg_fetch_assoc($prepare_query);
+		return pg_fetch_assoc($prepare_query);
 		// $this->firstname = $results['firstname'];
 		// echo $this->firstname;
+
 	}
 
 	public function set_all () {
@@ -185,24 +187,20 @@ class StudentHelper extends Student {
 	}
 
 	public function setRoommates () {
-		$query_string = "SELECT roommate FROM roommate WHERE student='" . $this->student_id . "';";
+		$query_string = "SELECT roommate FROM roommates WHERE student='" . $this->student_id . "';";
 		$prepare_query = pg_query($this->db, $query_string);
-		$roommates = pg_fetch_all($prepare_query); //array of 1 or 2 sids
+		$this->roommates = pg_fetch_all($prepare_query); //array of 1 or 2 student_ids
 	}
 
-	public function getRoommateInfo () {
-		$roommate_info = array();
+	public function getRoommatesInfo () {
+		$roommates_info = array();
 		foreach ($this->roommates as $roommate) {
-			$query_string = "SELECT firstname, lastname, profile_pic_url FROM person WHERE student_id='" . $roommate . "';";
+			$query_string = "SELECT student_id, firstname, lastname, profile_pic_url FROM person WHERE student_id='" . $roommate . "';";
 			$prepare_query = pg_query($this->db, $query_string);
-			push($roommate_info, pg_fetch_assoc($prepare_query));
+			array_push($roommates_info, pg_fetch_assoc($prepare_query));
 		}
 		return $roommate_info;
 	}
-
 }
-
-$bryan = new StudentHelper("0523842");
-$bryan->get_all();
 
 ?>

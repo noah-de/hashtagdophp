@@ -155,7 +155,7 @@ if (count($search_results) > 10) {
       } else {
         foreach ($search_results as $key=>$value) {
           echo "<li>";
-          echo "<img src=\"" . $value['profile_pic_url'] . "\">";
+          echo "<img src=\"./images/" . $value['profile_pic_url'] . "\">";
           echo "<p>" . $value['firstname'] . " " . $value['lastname'] . "</p>";
           echo "<p>" . $value['dorm'] . "</p>";
           echo "<p><a href=\"http://10.30.49.240:8080/profile/?sid=" . $value['student_id'] . "\">Profile</a>"; //if you need this url to work for your env, change it and recognized it may be changed by others until bryan gets his shit together

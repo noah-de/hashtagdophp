@@ -94,7 +94,7 @@ require('../Person.php');
       <ul> 
         <!-- todo: check if student allows info to be seen -->
         <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
-        <li> <img src="<?php echo $student->getProfilePicURL(); ?>"></li>
+        <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
         <li>dorm: <?php echo $student->getDorm(); ?></li>
         <li>email: <?php echo $student->getEmail(); ?></li>
         <li>year: <?php echo $student->getYear(); ?></li>
@@ -107,7 +107,7 @@ require('../Person.php');
                 $getRoommatesInfo = $student->getRoommatesInfo();
                 foreach ($getRoommatesInfo as $roommate) {
                   echo "<li>";
-                  echo "<img src=\"" . $roommate['profile_pic_url'] . "\">";
+                  echo "<img src=\"../images/" . $roommate['profile_pic_url'] . "\">";
                   echo "<p>" . $value['firstname'] . " " . $roommate['lastname'] . "</p>";
                   echo "<p><a href=\"http://10.30.49.240/profile/?sid=" . $roommate['student_id'] . "\">Profile</a>";
                   echo "</li>";

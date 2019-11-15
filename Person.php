@@ -179,6 +179,7 @@ class StudentHelper extends Student {
 		$this->setRole($person['role']);
 		$this->setEmail($person['email']);
 		$this->setSearchedNum($person['searched_num']);
+		$this->setProfilePicURL($person['profile_pic_url']);
 		$this->setYear($person['year']);
 		$this->setDorm($person['dorm']);
 		$this->setRoomNum($person['room_num']);

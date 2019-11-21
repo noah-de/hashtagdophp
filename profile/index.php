@@ -29,7 +29,7 @@ require('../Person.php');
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="#">ABOUT</a>
+            <a color="white" class="nav-link" href="#">ABOUT</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">ACADEMICS</a>

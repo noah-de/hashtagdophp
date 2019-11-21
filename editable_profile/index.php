@@ -98,7 +98,7 @@ require('../Person.php');
         <!-- todo: check if student allows info to be seen -->
         <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
         <!-- <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li> -->
-        <li>img: <?php echo $img src=../images/ . " " . $student->getProfilePicURL(); ?> ></li>
+        <!-- <li>img: <?php //echo $img src=../images/ . " " . $student->getProfilePicURL(); ?> ></li> -->
         <li>dorm: <?php echo $student->getDorm(); ?></li>
         <li>email: <?php echo $student->getEmail(); ?></li>
         <li>year: <?php echo $student->getYear(); ?></li>
@@ -113,7 +113,7 @@ require('../Person.php');
                   echo "<li>";
                   echo "<img src=\"../images/" . $roommate['profile_pic_url'] . "\">";
                   echo "<p>" . $value['firstname'] . " " . $roommate['lastname'] . "</p>";
-                  echo "<p><a href=\"http://10.30.49.240/profile/?sid=" . $roommate['student_id'] . "\">Profile</a>";
+                  echo "<p><a href=\"http://localhost:8080/profile/?sid=" . $roommate['student_id'] . "\">Profile</a>";
                   echo "</li>";
                 }
               ?>

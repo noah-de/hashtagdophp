@@ -92,6 +92,7 @@ require('../Person.php');
         ?>
 
         <ul> 
+          <li> <?php echo "<p><a href=\"http://localhost:8080/editable_profile/?sid=" . $roommate['student_id'] . "\">Edit</a>"; ?> </li>
           <!-- todo: check if student allows info to be seen -->
           <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
           <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>

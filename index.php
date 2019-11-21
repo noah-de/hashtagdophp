@@ -136,7 +136,7 @@ if (count($search_results) > 10) {
           echo "value=\"" . $basic_search_query . "\"";
           ?>>
           <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">GO</button>
+            <input class="btn btn-outline-secondary" type="submit" value="Search" name="submit" id="reg_submit">
           </div>
         </div>
       </form>

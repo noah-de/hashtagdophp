@@ -93,30 +93,29 @@ if (count($search_results) > 10) {
    <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
+        <a class="nav-link" href="https://www.westmont.edu/about"><font color="#FFFFFF">ABOUT</font></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/academics">ACADEMICS</a>
+        <a class="nav-link" href="https://www.westmont.edu/academics"><font color="#FFFFFF">ACADEMICS</font></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/admissions-aid">ADMISSIONS & AID</a>
+        <a class="nav-link" href="https://www.westmont.edu/admissions-aid"><font color="#FFFFFF">ADMISSIONS & AID</font></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/student-life">STUDENT LIFE</a>
+        <a class="nav-link" href="https://www.westmont.edu/student-life"><font color="#FFFFFF">STUDENT LIFE</font></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/giving">GIVING</a>
+        <a class="nav-link" href="https://www.westmont.edu/giving"><font color="#FFFFFF">GIVING</font></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
+        <a class="nav-link" href="https://athletics.westmont.edu/index.aspx"><font color="#FFFFFF">ATHLETICS</font></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../login/index.php">LOGIN</a>
+        <a class="nav-link" href="../login/index.php"><font color="#FFFFFF">LOGIN</font></a>
       </li>
     </ul>
   </div>
 </nav>
-<br>
 
 <div class="hero-image">
   <div class="hero-text" align="center">
@@ -158,7 +157,7 @@ if (count($search_results) > 10) {
           echo "<img src=\"./images/" . $value['profile_pic_url'] . "\">";
           echo "<p>" . $value['firstname'] . " " . $value['lastname'] . "</p>";
           echo "<p>" . $value['dorm'] . "</p>";
-          echo "<p><a href=\"http://10.30.49.240:8080/profile/?sid=" . $value['student_id'] . "\">Profile</a>"; //if you need this url to work for your env, change it and recognized it may be changed by others until bryan gets his shit together
+          echo "<p><a href=\"http://localhost:8080/profile/?sid=" . $value['student_id'] . "\">Profile</a>"; //if you need this url to work for your env, change it and recognized it may be changed by others until bryan gets his shit together
           echo "</li>";
         }
       }

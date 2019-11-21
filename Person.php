@@ -205,7 +205,7 @@ class StudentHelper extends Student {
 			$prepare_query = pg_query($this->db, $query_string);
 			array_push($roommates_info, pg_fetch_assoc($prepare_query));
 		}
-		return $roommate_info;
+		return $roommates_info;
 	}
 }
 

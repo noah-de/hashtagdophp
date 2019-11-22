@@ -90,19 +90,6 @@ require('../Person.php');
           echo $student->getFirstname();
         }*/
       ?>
-
-<<<<<<< HEAD
-      <ul> 
-        <!-- todo: check if student allows info to be seen -->
-        <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
-        <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
-        <li>dorm: <?php echo $student->getDorm(); ?></li>
-        <li>email: <?php echo $student->getEmail(); ?></li>
-        <li>year: <?php echo $student->getYear(); ?></li>
-        <li>mailbox: <?php echo $student->getMSNum(); ?></li>
-        <li>phone number: <?php echo $student->getPhoneNum(); ?></li>
-        <li>roommates: 
-=======
         <ul> 
           <li> <?php echo "<p><a href=\"http://localhost:8080/editable_profile/?sid=" . $roommate['student_id'] . "\">Edit</a>"; ?> </li>
           <!-- todo: check if student allows info to be seen -->
@@ -113,8 +100,7 @@ require('../Person.php');
           <li>year: <?php echo $student->getYear(); ?></li>
           <li>mailbox: <?php echo $student->getMSNum(); ?></li>
           <li>phone number: <?php echo $student->getPhoneNum(); ?></li>
-          <li>roommates: 
->>>>>>> 2069ddf165ae62aeed04bf0560ead740dfdb70b5
+          <li>roommates:
             <ul>
               <?php
                 var_dump($student->setRoommates());

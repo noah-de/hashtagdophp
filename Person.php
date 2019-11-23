@@ -152,6 +152,10 @@ class StudentHelper extends Student {
 		$this->db = pg_connect($this->db_con['string']);
 	}
 
+	private function close_db () {
+		pg_close($this->db);
+	}
+
 	function __construct($student_id) {
 		$this->student_id = $student_id;
 		$this->connect_db();
@@ -159,7 +163,7 @@ class StudentHelper extends Student {
 
 	// gets all information about student by student_id from db query
 	public function get_all () {
-		$query_string = "SELECT * FROM person WHERE student_id='" . $this->student_id . "';";
+		$query_string = "SELECT * FROM person WHERE student_id = '" . $this->student_id . "';";
 		$prepare_query = pg_query($this->db, $query_string);
 		// $results = pg_fetch_assoc($prepare_query);
 		return pg_fetch_assoc($prepare_query);
@@ -188,7 +192,7 @@ class StudentHelper extends Student {
 
 	// sets $this->roommates to array of student_ids of roommates from roommates table where the student column is equal to this student's student_id
 	public function setRoommates () {
-		$query_string = "SELECT roommate FROM roommates WHERE student='" . $this->student_id . "';";
+		$query_string = "SELECT roommate FROM roommates WHERE student = '" . $this->student_id . "';";
 		$prepare_query = pg_query($this->db, $query_string);
 		$roommate_array_array = pg_fetch_all($prepare_query); //array of 1 or 2 student_ids
 		$this->roommates = array();
@@ -207,7 +211,7 @@ class StudentHelper extends Student {
 	public function getRoommatesInfo () {
 		$roommates_info = array();
 		foreach ($this->roommates as $roommate) {
-			$query_string = "SELECT student_id, firstname, lastname, profile_pic_url FROM person WHERE student_id='" . rtrim($roommate) . "';";
+			$query_string = "SELECT student_id, firstname, lastname, profile_pic_url FROM person WHERE student_id = '" . rtrim($roommate) . "';";
 			$prepare_query = pg_query($this->db, $query_string);
 			$result = pg_fetch_assoc($prepare_query);
 			array_push($roommates_info, $result);

@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_COOKIE['student_id'])) {
-  header("Location: ..");
+  header("Location: ../");
 }
 
 $login_error = "";
@@ -25,7 +25,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
   $prepare_query = pg_query($db, $query_string);
   $result = pg_fetch_assoc($prepare_query);
 
-  $cookie_lifetime = 1200; // 20 minutes in seconds; 20 * 60
+  $cookie_lifetime = 12000; // 20 minutes in seconds; 20 * 60
 
   if (empty($result)) {
     $login_error = "Username does not exist.";

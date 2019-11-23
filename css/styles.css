@@ -123,5 +123,24 @@ body, html {
   color: white;
 }
 
+#logged_in_dropdown {
+  float: right;
+}
 
+li.list-group-item.card {
+  width: 16rem;
+}
+.trim {
+  max-height: 125px;
+  max-width: 125px;
+  overflow: hidden;
+}
 
+.dorm {
+  color: rgb(163, 30, 55)!important;
+}
+
+#searched_num {
+  color: #fff;
+  background-color: rgb(163, 30, 55);
+}

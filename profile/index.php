@@ -3,7 +3,7 @@
 require('../Person.php');
 
 if (!isset($_COOKIE['student_id'])) {
-  header("Location: ../login");
+  header("Location: ../login/");
 }
 else if ($_COOKIE['student_id'] == $_GET['sid']) {
   $is_user = true; // if this is true, this page is the presently logged-in users profile page
@@ -19,7 +19,7 @@ $db_con['dbname'] = "dophp";
 $conn_string = "host=" . $db_con['host'] . " port=" . $db_con['port'] . " user=" . $db_con['user'] . " password=" . $db_con['password'] . " dbname=" . $db_con['dbname'];
 $db = pg_connect($conn_string);
 
-$user_info_query_string = "SELECT * FROM person WHERE student_id='" . $cookie_studentID . "';";
+$user_info_query_string = "SELECT * FROM person WHERE student_id = '" . $cookie_studentID . "';";
 $user_info_prepare_query = pg_query($db, $user_info_query_string);
 $user_info_result = pg_fetch_assoc($user_info_prepare_query);
 
@@ -39,37 +39,40 @@ $user_info_result = pg_fetch_assoc($user_info_prepare_query);
     <script type="text/javascript" src="../js/script.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/@fortawesome/fontawesome-free/css/all.css">
     <link rel="stylesheet" type="text/css" href="../css/styles.css">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="https://www.westmont.edu">
         <img src="../images/westmont.png" height="30" alt="">
       </a>
-
-      <div class="collapse navbar-collapse" id="navbarNav">
+       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a color="white" class="nav-link" href="#">ABOUT</a>
+            <a class="nav-link" href="https://www.westmont.edu/about"><font color="#FFFFFF">ABOUT</font></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">ACADEMICS</a>
+            <a class="nav-link" href="https://www.westmont.edu/academics"><font color="#FFFFFF">ACADEMICS</font></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">ADMISSIONS & AID</a>
+            <a class="nav-link" href="https://www.westmont.edu/admissions-aid"><font color="#FFFFFF">ADMISSIONS & AID</font></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">STUDENT LIFE</a>
+            <a class="nav-link" href="https://www.westmont.edu/student-life"><font color="#FFFFFF">STUDENT LIFE</font></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">GIVING</a>
+            <a class="nav-link" href="https://www.westmont.edu/giving"><font color="#FFFFFF">GIVING</font></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">ATHLETICS</a>
+            <a class="nav-link" href="https://athletics.westmont.edu/index.aspx"><font color="#FFFFFF">ATHLETICS</font></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login/"><font color="#FFFFFF">LOGIN</font></a>
           </li>
           <?php
           if (isset($_COOKIE['student_id'])) {
-          echo "<li class=\"nav-item\">";
+          echo "<li class=\"nav-item\"id=\"logged_in_dropdown\">";
             echo "<div class=\"dropdown\">";
           echo "<a class=\"btn btn-secondary dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
           echo "Welcome, " . $user_info_result['firstname'];
@@ -155,3 +158,6 @@ $user_info_result = pg_fetch_assoc($user_info_prepare_query);
       </div>
   </body>
 </html>
+<?php
+  pg_close($db);
+?>

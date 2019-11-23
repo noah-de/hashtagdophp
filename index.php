@@ -1,6 +1,6 @@
 <?php
 if (!isset($_COOKIE['student_id'])) {
-  header("Location: ./login");
+  header("Location: ./login/");
 }
 
 $db_con['host'] = "bminer-apps";
@@ -15,15 +15,32 @@ $db = pg_connect($conn_string);
 
 $cookie_studentID = $_COOKIE['student_id'];
 
-$user_info_query_string = "SELECT * FROM person WHERE student_id='" . $cookie_studentID . "';";
+$user_info_query_string = "SELECT * FROM person WHERE student_id = '" . $cookie_studentID . "';";
 $user_info_prepare_query = pg_query($db, $user_info_query_string);
 $user_info_result = pg_fetch_assoc($user_info_prepare_query);
 
 $basic_search_query = $_POST['basic_search_query'];
 //$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
-$reg_search_query_string = "SELECT student_id, firstname, lastname, dorm, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
+$reg_search_query_string = "SELECT student_id, firstname, lastname, dorm, searched_num, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
 $reg_search_query = pg_query($db, $reg_search_query_string);
 $search_results = pg_fetch_all($reg_search_query);
+
+function create_incrementer_query_str ($student_ids) {
+	$query_beg = "UPDATE person SET searched_num = searched_num + 1 WHERE student_id = '";
+	$query_glue= "' OR student_id = '";
+	$query_end = "';";
+
+	$glued_student_ids = implode($query_glue, $student_ids);
+
+	$query_whole = $query_beg . $glued_student_ids . $query_end;
+
+	return $query_whole;
+}
+
+$results_ids = array_column($search_results, 'student_id');
+
+$increment_results_query_string = create_incrementer_query_str($results_ids);
+$increment_results_query = pg_query($increment_results_query_string);
 //$search_results = pg_fetch_assoc($reg_search_query); //runs postgres command on db
 
 //var_dump($search_results);
@@ -81,18 +98,15 @@ if (count($search_results) > 10) {
   <script type="text/javascript" src="./js/script.js"></script>
 
   <link rel="stylesheet" type="text/css" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="./node_modules/@fortawesome/fontawesome-free/css/all.css">
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
 </head>
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="https://www.westmont.edu">
     <img src="./images/westmont.png" height="30" alt="">
   </a>
-  <div class="collapse navbar-collapse" id="navbarNav">
-   <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
-   </div>
-
    <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -118,7 +132,7 @@ if (count($search_results) > 10) {
       </li>
       <?php
       if (isset($_COOKIE['student_id'])) {
-      echo "<li class=\"nav-item\">";
+      echo "<li class=\"nav-item\" id=\"logged_in_dropdown\">";
         echo "<div class=\"dropdown\">";
 		  echo "<a class=\"btn btn-secondary dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
 		  echo "Welcome, " . $user_info_result['firstname'];
@@ -164,18 +178,29 @@ if (count($search_results) > 10) {
   </div>
 </div>
 <div class="container">
-  <ul id="results">
+  <ul class="list-group list-group-flush" id="results">
     <?php
       if (empty($search_results)) {
         echo "<p> No results were found. </p>";
 
       } else {
-        foreach ($search_results as $key=>$value) {
-          echo "<li>";
-          echo "<img src=\"./images/" . $value['profile_pic_url'] . "\">";
-          echo "<p>" . $value['firstname'] . " " . $value['lastname'] . "</p>";
-          echo "<p>" . $value['dorm'] . "</p>";
-          echo "<p><a href=\"http://localhost:8080/profile/?sid=" . $value['student_id'] . "\">Profile</a>"; //if you need this url to work for your env, change it and recognized it may be changed by others until bryan gets his shit together
+        foreach ($search_results as $student) {
+        	$wholename = $student['firstname'] . " " . $student['lastname'];
+        	$searched_num = $student['searched_num'] + 1; // to reflect this searche
+
+          echo "<li class=\"list-group-item card\">";
+          echo "<span class=\"trim rounded-circle\"><img src=\"./images/" . $student['profile_pic_url'] . "\" class=\"card-image-top\" alt=\"" . $wholename . "\"></span>";
+	          echo "<div class=\"card-body\">";
+	          	echo "<h5 class=\"card-title\">" . $wholename . "</h5>";
+	        	echo "</div>";
+	        	echo "<ul class=\"list-group list-group-flush\">";
+	          	echo "<li class=\"list-group-item d-flex align-items-center\"><span class=\"dorm\"><i class=\"fas fa-home fa-lg\"></i> </span> " . $student['dorm'] . "</li>";
+	          	echo "<li class=\"list-group-item d-flex justify-content-between align-items-center\">Num times searched" .
+	          		"<span class=\"badge badge-pill\" id=\"searched_num\">" . $searched_num . "</span></li>";
+	          echo "</ul>";
+	          echo "<div class=\"card-body\">";
+					    echo "<a href=\"./profile/?sid=" . $student['student_id'] . "\" class=\"card-link\">Profile page</a>";
+					  echo "</div>";
           echo "</li>";
         }
       }
@@ -190,3 +215,6 @@ if (count($search_results) > 10) {
 </div>
 </body>
 </html>
+<?php
+	pg_close($db);
+?>

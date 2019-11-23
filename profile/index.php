@@ -2,6 +2,27 @@
 
 require('../Person.php');
 
+if (!isset($_COOKIE['student_id'])) {
+  header("Location: ../login");
+}
+else if ($_COOKIE['student_id'] == $_GET['sid']) {
+  $is_user = true; // if this is true, this page is the presently logged-in users profile page
+}
+
+$cookie_studentID = $_COOKIE['student_id'];
+
+$db_con['host'] = "bminer-apps";
+$db_con['port'] = "5433";
+$db_con['user'] = "dophp";
+$db_con['password'] = "Nalkerstet!";
+$db_con['dbname'] = "dophp";
+$conn_string = "host=" . $db_con['host'] . " port=" . $db_con['port'] . " user=" . $db_con['user'] . " password=" . $db_con['password'] . " dbname=" . $db_con['dbname'];
+$db = pg_connect($conn_string);
+
+$user_info_query_string = "SELECT * FROM person WHERE student_id='" . $cookie_studentID . "';";
+$user_info_prepare_query = pg_query($db, $user_info_query_string);
+$user_info_result = pg_fetch_assoc($user_info_prepare_query);
+
 ?>
 
 <!DOCTYPE html>
@@ -46,6 +67,21 @@ require('../Person.php');
           <li class="nav-item">
             <a class="nav-link" href="#">ATHLETICS</a>
           </li>
+          <?php
+          if (isset($_COOKIE['student_id'])) {
+          echo "<li class=\"nav-item\">";
+            echo "<div class=\"dropdown\">";
+          echo "<a class=\"btn btn-secondary dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
+          echo "Welcome, " . $user_info_result['firstname'];
+          echo "</a>";
+
+          echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
+            echo "<a class=\"dropdown-item\" href=\"profile/?sid=" . $cookie_studentID . "\">View Profile</a>";
+            echo "<a class=\"dropdown-item\" href=\"../logout\">Logout</a>";
+          echo "</div>";
+          echo "</li>";
+          }
+          ?>
         </ul>
       </div>
     </nav>

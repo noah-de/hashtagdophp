@@ -11,7 +11,7 @@ body, html {
 
 .bg-img {
   /* The image used */
-  background-image: url("/images/westmont.lib.jpg");
+  background-image: url("../../images/westmont.lib.jpg");
 
   min-height: 380px;
 

@@ -1,7 +1,7 @@
 <?php
-// if (!isset($_COOKIE['studentID'])) {
-//   header("Location: ./login/index.php");
-// }
+if (!isset($_COOKIE['student_id'])) {
+  header("Location: ./login");
+}
 
 $db_con['host'] = "bminer-apps";
 $db_con['port'] = "5433";
@@ -15,6 +15,9 @@ $db = pg_connect($conn_string);
 
 $cookie_studentID = $_COOKIE['student_id'];
 
+$user_info_query_string = "SELECT * FROM person WHERE student_id='" . $cookie_studentID . "';";
+$user_info_prepare_query = pg_query($db, $user_info_query_string);
+$user_info_result = pg_fetch_assoc($user_info_prepare_query);
 
 $basic_search_query = $_POST['basic_search_query'];
 //$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
@@ -111,8 +114,23 @@ if (count($search_results) > 10) {
         <a class="nav-link" href="https://athletics.westmont.edu/index.aspx"><font color="#FFFFFF">ATHLETICS</font></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../login/index.php"><font color="#FFFFFF">LOGIN</font></a>
+        <a class="nav-link" href="login/"><font color="#FFFFFF">LOGIN</font></a>
       </li>
+      <?php
+      if (isset($_COOKIE['student_id'])) {
+      echo "<li class=\"nav-item\">";
+        echo "<div class=\"dropdown\">";
+		  echo "<a class=\"btn btn-secondary dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
+		  echo "Welcome, " . $user_info_result['firstname'];
+		  echo "</a>";
+
+		  echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
+		    echo "<a class=\"dropdown-item\" href=\"profile/?sid=" . $cookie_studentID . "\">View Profile</a>";
+		    echo "<a class=\"dropdown-item\" href=\"logout\">Logout</a>";
+		  echo "</div>";
+      echo "</li>";
+  	  }
+      ?>
     </ul>
   </div>
 </nav>

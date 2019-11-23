@@ -45,6 +45,12 @@ $increment_results_query = pg_query($increment_results_query_string);
 
 //var_dump($search_results);
 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * TODO:																													 *
+ * 	 parse out different forms and write corresponding queries 		 *
+ * 	 create show-all button and query															 *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 /**
  * Pagination
  * 
@@ -132,17 +138,17 @@ if (count($search_results) > 10) {
       </li>
       <?php
       if (isset($_COOKIE['student_id'])) {
-      echo "<li class=\"nav-item\" id=\"logged_in_dropdown\">";
-        echo "<div class=\"dropdown\">";
-		  echo "<a class=\"btn btn-secondary dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
-		  echo "Welcome, " . $user_info_result['firstname'];
-		  echo "</a>";
+	      echo "<li class=\"nav-item\" id=\"logged_in_dropdown\">";
+	        echo "<div class=\"dropdown\">";
+			  echo "<a class=\"btn btn-secondary dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
+			  echo "Welcome, " . $user_info_result['firstname'];
+			  echo "</a>";
 
-		  echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
-		    echo "<a class=\"dropdown-item\" href=\"profile/?sid=" . $cookie_studentID . "\">View Profile</a>";
-		    echo "<a class=\"dropdown-item\" href=\"logout\">Logout</a>";
-		  echo "</div>";
-      echo "</li>";
+			  echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
+			    echo "<a class=\"dropdown-item\" href=\"profile/?sid=" . $cookie_studentID . "\">View Profile</a>";
+			    echo "<a class=\"dropdown-item\" href=\"logout\">Logout</a>";
+			  echo "</div>";
+	      echo "</li>";
   	  }
       ?>
     </ul>
@@ -157,26 +163,139 @@ if (count($search_results) > 10) {
 
 
 <br>
-<div class="container">
-  <div class="row" id="reg_search_cont">
-    <div class="col-md-10">
-      <form method="POST" action="./index.php">
-        <div class="input-group mb-3">
-          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
-          <?php 
-          echo "value=\"" . $basic_search_query . "\"";
-          ?>>
-          <div class="input-group-append">
-            <input class="btn btn-outline-secondary" type="submit" value="Search" name="submit" id="reg_submit">
-          </div>
-        </div>
-      </form>
+
+<!-- <div id="search_carousel" class="carousel slide" data-interval="false" data-ride="carousel" data-pause="hover">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+    	<div class="container" id="reg_search_cont">
+			  <div class="row">
+			    <div class="col-md-10">
+			      <form method="POST" action="./index.php" name="reg_search">
+			        <div class="input-group mb-3">
+			          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
+			          <?php 
+			          echo "value=\"" . $basic_search_query . "\"";
+			          ?>>
+			          <div class="input-group-append">
+			            <input class="btn btn-outline-secondary" type="submit" value="Search" name="submit" id="reg_submit">
+			          </div>
+			        </div>
+			      </form>
+			    </div>
+			  </div>
+			</div>
+    </div>
+    <div class="carousel-item">
+      <div class="container" id="adv_search_cont">
+				<div class="row">
+			    <div class="col-md-10">
+			    	<form method="POST" action="./index.php" name="reg_search">
+			        <div class="input-group mb-3">
+			        	
+			        </div>
+			      </form>
+			    </div>
+			  </div>
+			</div>
     </div>
   </div>
-  <div class="row" id="adv_search_cont">
-    <div class="col-md-10"></div>
-  </div>
-</div>
+  <a class="carousel-control-prev" href="#search_carousel" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#search_carousel" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div> -->
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-10">
+			<ul class="nav nav-tabs" id="searches_tabs" role="tablist">
+			  <li class="nav-item">
+			    <a class="nav-link active" id="reg-tab" data-toggle="tab" href="#reg" role="tab" aria-controls="reg" aria-selected="true">Basic Search</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" id="adv-tab" data-toggle="tab" href="#adv" role="tab" aria-controls="adv" aria-selected="false">Advanced Search</a>
+			  </li>
+			</ul>
+			<div class="tab-content" id="searches_content">
+			  <div class="tab-pane fade show active" id="reg" role="tabpanel" aria-labelledby="reg-tab">
+			  	<!-- <div class="container" id="reg_search_cont"> -->
+					  <div class="row" id="reg_search_cont">
+					    <div class="col-md-12">
+					      <form method="POST" action="./index.php" name="reg">
+					        <div class="input-group mb-3">
+					        	<div class="input-group-prepend">
+					            <input class="btn btn-outline-secondary" type="submit" value="Show all" name="submit" id="reg_submit">
+					          </div>
+					          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
+					          <?php 
+					          echo "value=\"" . $basic_search_query . "\"";
+					          ?>>
+					          <div class="input-group-append">
+					            <input class="btn btn-outline-secondary" type="submit" value="Search" name="submit" id="reg_submit">
+					          </div>
+					        </div>
+					      </form>
+					    </div>
+					  </div>
+					</div>
+					<div class="tab-pane fade" id="adv" role="tabpanel" aria-labelledby="adv-tab">
+			  	<!-- <div class="container" id="adv_search_cont"> -->
+						<div class="row" id="adv_search_cont">
+					    <div class="col-md-12">
+					      <form method="POST" action="./index.php" name="reg">
+					    		<div class="form-row">
+								    <div class="col form-group">
+								    	<label for="adv_firstname">First name</label>
+									    <input type="text" class="form-control" id="adv_firstname" name="adv_firstname" placeholder="Riley">
+								    </div>
+								    <div class="col form-group">
+								    	<label for="adv_lastname">Last name</label>
+									    <input type="text" class="form-control" id="adv_lastname" name="adv_lastname" placeholder="Jackson">
+								    </div>
+								  </div>
+								  <div class="form-row">
+								    <div class="col form-group">
+								    	<label for="adv_dorm">Dorm</label>
+									    <select class="form-control" id="adv_dorm" name="adv_dorm">
+									    	<option selected="selected" disabled>Pick a dorm</option>
+									    	<option value="Clark">Clark</option>
+									    	<option value="Page">Page</option>
+									    	<option value="Emerson">Emerson</option>
+									    	<option value="Armington">Armington</option>
+									    	<option value="Van Kampen">Van Kampen</option>
+									    	<option value="GLC">GLC</option>
+									    </select>
+								    </div>
+								    <div class="col form-group">
+								    	<label for="adv_section">Building</label>
+									    <select class="form-control" id="adv_section" name="adv_section"><option selected="selected" disabled>First select a dorm</option></select>
+								    </div>
+								  </div>
+								  <div class="form-row">
+								    <div class="col form-group">
+								  		<label for="adv_roommates">Roommates with</label>
+									    <input type="text" class="form-control" id="adv_roommates" name="adv_roommates" placeholder="Dylan Monacelli">
+							  		</div>
+								  </div>
+								  <div class="form-row">
+								    <div class="col form-group">
+								  		<input type="submit" value="Search" name="adv_submit" class="btn btn-primary btn-lg btn-block" id="adv_submit">
+							  		</div>
+								  </div>
+				    		</form>
+					    </div>
+					  </div>
+					</div>
+			  </div>
+		  </div>
+		</div>
+	</div>
+
+
 <div class="container">
   <ul class="list-group list-group-flush" id="results">
     <?php
@@ -186,10 +305,10 @@ if (count($search_results) > 10) {
       } else {
         foreach ($search_results as $student) {
         	$wholename = $student['firstname'] . " " . $student['lastname'];
-        	$searched_num = $student['searched_num'] + 1; // to reflect this searche
+        	$searched_num = $student['searched_num'] + 1; // to reflect this search
 
           echo "<li class=\"list-group-item card\">";
-          echo "<span class=\"trim rounded-circle\"><img src=\"./images/" . $student['profile_pic_url'] . "\" class=\"card-image-top\" alt=\"" . $wholename . "\"></span>";
+          echo "<span class=\"trim rounded-circle align-items-center\"><img src=\"./images/" . $student['profile_pic_url'] . "\" class=\"card-image-top\" alt=\"" . $wholename . "\"></span>";
 	          echo "<div class=\"card-body\">";
 	          	echo "<h5 class=\"card-title\">" . $wholename . "</h5>";
 	        	echo "</div>";

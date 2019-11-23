@@ -23,6 +23,10 @@ $user_info_query_string = "SELECT * FROM person WHERE student_id = '" . $cookie_
 $user_info_prepare_query = pg_query($db, $user_info_query_string);
 $user_info_result = pg_fetch_assoc($user_info_prepare_query);
 
+$student_id = $_GET['sid'];
+$student = new StudentHelper($student_id);
+$student->set_all();
+
 ?>
 
 <!DOCTYPE html>
@@ -36,11 +40,11 @@ $user_info_result = pg_fetch_assoc($user_info_prepare_query);
 
     <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="../js/script.js"></script>
+    <script type="text/javascript" src="./js/script.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="../node_modules/@fortawesome/fontawesome-free/css/all.css">
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
@@ -88,74 +92,158 @@ $user_info_result = pg_fetch_assoc($user_info_prepare_query);
         </ul>
       </div>
     </nav>
-
-    <!-- <div class="container">
-      <div class="row" id="reg_search_cont">
-        <div class="col-md-10">
-          <form method="POST" action="./index.php">
+    <div class="container profile_content" id="static_content">
+      <ul> 
+        <li>
+          <?php
+          if ($is_user) {
+            // echo "<p><a href=\"http://localhost:8080/editable_profile/?sid=" . $roommate['student_id'] . "\">Edit</a>";
+            echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" id=\"edit\">Edit</button>";
+          }
+          ?>
+        </li>
+        <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
+        <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
+        <li>dorm: <?php echo $student->getDorm(); ?></li>
+        <li>email: <?php echo $student->getEmail(); ?></li>
+        <li>year: <?php echo $student->getYear(); ?></li>
+        <li>mailbox: <?php echo $student->getMSNum(); ?></li>
+        <li>phone number: <?php echo $student->getPhoneNum(); ?></li>
+        <li>roommates:
+          <ul>
+            <?php
+              $getRoommatesInfo = $student->getRoommatesInfo();
+              foreach ($getRoommatesInfo as $roommate) {
+                echo "<li>";
+                echo "<img src=\"../images/" . $roommate['profile_pic_url'] . "\">";
+                echo "<p>" . $roommate['firstname'] . " " . $roommate['lastname'] . "</p>";
+                echo "<p><a href=\"http://10.30.49.240/profile/?sid=" . $roommate['student_id'] . "\">Profile</a>";
+                echo "</li>";
+              }
+            ?>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- 
+      -- TODO:
+      --   make privacy switches work
+      --   link form to php up top and write queries to update
+      --   uploading photo is going to be the weirdest
+      --     allow in php.ini
+      --     php upload physical file to directory
+      --     rename file to convention + datetime
+      --     update student's db row profile_pic_url
+      --   success/error balloon/banner
+      --   enhance ui
+      --     prepend font-awesome icons to all rows (where applicable)
+      --     etc.
+      -->
+    <div class="container profile_content" id="editable_content">
+      <form method="POST" action="./">
+        <!-- <input type="submit" name="update" value="Save" class="btn btn-info" id="update"> -->
+        <button type="button" class="btn btn-info btn-sm" id="save">Save</button>
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="preferred_name">preferred name</label>
+            <input type="text" class="form-control" id="preferred_name" aria-describedby="preferred_name-desc" name="preferred_name" placeholder="McLovin">
+            <small id="preferred_name-desc" class="form-text text-muted">Name you would prefer to go by.</small>
+          </div>
+          <div class="col">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="phone_num">Phone number</label>
+            <input type="tel" class="form-control" id="phone_num" name="phone_num" placeholder="1-805-420-6969">
+          </div>
+          <div class="col">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col form-group">
+            <label for="alt_email">Alternate email address</label>
+            <input type="email" class="form-control" id="alt_email" placeholder="noobmaster69@aol.com">
+          </div>
+          <div class="col">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col form-group">
             <div class="input-group mb-3">
-              <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">GO</button>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="profile_pic">
+                <label class="custom-file-label" for="profile_pic">Choose photo</label>
               </div>
             </div>
-          </form>
+          </div>
+          <div class="col">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="row" id="adv_search_cont">
-        <div class="col-md-10"></div>
-      </div>
-    </div> -->
-    <div class="container">
-      
-
-      <?php 
-        $student_id = $_GET['sid'];
-        $student = new StudentHelper($student_id);
-        $student->set_all();
-
-        /*if(isset($_COOKIE['student_id'])) {
-          if($sid == $_COOKIE['student_id']) {
-            //content is editable
-            echo 'cookie :------)';
-            echo $student->getFirstname();
-            echo '<button> biggest dicks </button>'; //button to link to js
-
-
-          }
-        } else {
-          //just display info
-          echo 'no cookie :------(';
-          echo $student->getFirstname();
-        }*/
-      ?>
-        <ul> 
-          <li> <?php echo "<p><a href=\"http://localhost:8080/editable_profile/?sid=" . $roommate['student_id'] . "\">Edit</a>"; ?> </li>
-          <!-- todo: check if student allows info to be seen -->
-          <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
-          <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
-          <li>dorm: <?php echo $student->getDorm(); ?></li>
-          <li>email: <?php echo $student->getEmail(); ?></li>
-          <li>year: <?php echo $student->getYear(); ?></li>
-          <li>mailbox: <?php echo $student->getMSNum(); ?></li>
-          <li>phone number: <?php echo $student->getPhoneNum(); ?></li>
-          <li>roommates:
-            <ul>
-              <?php
-                var_dump($student->setRoommates());
-                $getRoommatesInfo = $student->getRoommatesInfo();
-                foreach ($getRoommatesInfo as $roommate) {
-                  echo "<li>";
-                  echo "<img src=\"../images/" . $roommate['profile_pic_url'] . "\">";
-                  echo "<p>" . $value['firstname'] . " " . $roommate['lastname'] . "</p>";
-                  echo "<p><a href=\"http://10.30.49.240/profile/?sid=" . $roommate['student_id'] . "\">Profile</a>";
-                  echo "</li>";
-                }
-              ?>
-            </ul>
-          </li>
-        </ul>
-      </div>
+        <div class="form-row">
+          <div class="col">email: <?php echo $student->getEmail(); ?></div>
+          <div class="col form-group">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col">MS#: <?php echo $student->getMSNum(); ?></div>
+          <div class="col form-group">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col">Searched num: <?php echo $student->getSearchedNum(); ?></div>
+          <div class="col form-group">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col">Allow to be searched by roommates</div>
+          <div class="col form-group">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col">dorm: <?php echo $student->getDorm(); ?></div>
+          <div class="col">room num: <?php echo $student->getRoomNum(); ?></div>
+          <div class="col form-group">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="">
+              <label class="custom-control-label" for=""></label>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </body>
 </html>
 <?php

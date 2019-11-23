@@ -225,7 +225,7 @@ if (count($search_results) > 10) {
 			  	<!-- <div class="container" id="reg_search_cont"> -->
 					  <div class="row" id="reg_search_cont">
 					    <div class="col-md-12">
-					      <form method="POST" action="./index.php" name="reg">
+					      <form method="POST" action="./" name="reg">
 					        <div class="input-group mb-3">
 					        	<div class="input-group-prepend">
 					            <input class="btn btn-outline-secondary" type="submit" value="Show all" name="submit" id="reg_submit">
@@ -246,7 +246,7 @@ if (count($search_results) > 10) {
 			  	<!-- <div class="container" id="adv_search_cont"> -->
 						<div class="row" id="adv_search_cont">
 					    <div class="col-md-12">
-					      <form method="POST" action="./index.php" name="reg">
+					      <form method="POST" action="./" name="reg">
 					    		<div class="form-row">
 								    <div class="col form-group">
 								    	<label for="adv_firstname">First name</label>
@@ -295,6 +295,7 @@ if (count($search_results) > 10) {
 		</div>
 	</div>
 
+<br>
 
 <div class="container">
   <ul class="list-group list-group-flush" id="results">
@@ -323,15 +324,31 @@ if (count($search_results) > 10) {
           echo "</li>";
         }
       }
-      if ($previous_page < $current_page) {
+      /* if ($previous_page < $current_page) {
         echo "<a href=\"?page=" . $page - 1 . "\">&lt;Page " . $page - 1 . "</a>";
       }
       if ($next_page > $previous_page) {
        echo "<a href=\"?page=" . $page . "\">Page " . $page . "&gt;</a>";
-      }
+      } */
     ?>
   </ul>
 </div>
+<br>
+<nav aria-label="...">
+  <ul class="pagination">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+    </li>
+    <li class="page-item active" aria-current="page">
+      <a class="page-link" href="#">1 <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
 </body>
 </html>
 <?php

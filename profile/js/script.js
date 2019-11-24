@@ -28,6 +28,10 @@ $(function() {
 			"Turn off to prevent others from seeing your name",
 			"Turn on to allow others to see your name"
 		],
+		"year_privacy": [
+			"Turn off to prevent others from seeing your academic year",
+			"Turn on to allow others to see your academic year"
+		],
 		"email_privacy": [
 			"Turn off to prevent others from seeing your Westmont email",
 			"Turn on to allow others to see your Westmont email"
@@ -50,7 +54,7 @@ $(function() {
 		]
 	};
 
-	$('[data-toggle="tooltip"]').each(function (index) {
+	$('[data-toggle="tooltip"]').each(function () {
 		var forKey = $(this).attr('for');
 		var privacyState = $('#' + forKey).is(':checked');
 		var tooltipTitle = (privacyState) ? tooltipTitles[forKey][0] : tooltipTitles[forKey][1];

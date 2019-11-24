@@ -24,8 +24,8 @@ $basic_search_query = $_POST['basic_search_query'];
 $search_columns = "student_id, firstname, lastname, dorm, searched_num, profile_pic_url";
 
 $lowercase_basic_search_query = strtolower($basic_search_query);
-$reg_search_query_string = "SELECT $search_columns FROM person WHERE '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || firstname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
-var_dump($reg_search_query_string);
+$reg_search_query_string = "SELECT $search_columns FROM person WHERE '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || firstname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || lastname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || preferred_name || '%');"; // this query gets more and more fucked every commit
+// var_dump($reg_search_query_string);
 $reg_search_query = pg_query($db, $reg_search_query_string);
 // pg_fetch_all moved to bottom
 

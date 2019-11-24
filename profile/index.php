@@ -85,7 +85,12 @@ foreach ($_POST as $key=>$value) {
       $update_privacy_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";
     }
     else {
-      $update_person_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";
+      if ((($key == "preferred_name") || ($key == "alt_email")) && (empty($form_value) || !isset($form_value))) {
+        $update_person_query_string_cols_vals .= " " . $key . " = NULL";
+      }
+      else {
+        $update_person_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";      
+      }
     }
   }
   // else if (!$cond_not_prof_pic) {

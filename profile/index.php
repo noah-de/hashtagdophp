@@ -28,13 +28,41 @@ $student = new StudentHelper($student_id);
 $student->set_all();
 $student->set_all_privacy();
 
-
-
 /*
  * update handler
  */
 
-foreach ()
+function checkbox_boolean_helper ($value) {
+  return $value == "on";
+}
+
+
+$update_query_string_columns = "UPDATE (";
+
+// var_dump($student);
+
+foreach ($_POST as $key=>$value) {
+  $orig_value = $student->getter_by_name($key);
+  $form_value = $value;
+
+  if ($form_value == "on") {
+    $form_value = checkbox_boolean_helper($form_value);
+  }
+
+  if (($key == "profile_pic") || ($key == "save") || ($orig_value != NULL)) {
+    break;
+  }
+
+  if ($orig_value != $form_value) {
+    $student->setter_by_name($key, $form_value);
+
+    echo "\$key: " . $key . ";";
+    echo "\$orig_value: " . $orig_value . ";";
+    echo "\$form_value: " . $form_value . ";<br>";
+  }
+}
+
+// var_dump($student);
 
 ?>
 
@@ -149,9 +177,9 @@ foreach ()
       --     etc.
       -->
     <div class="container profile_content" id="editable_content">
-      <form method="POST" action="./">
-        <!-- <input type="submit" name="update" value="Save" class="btn btn-info" id="update"> -->
-        <button type="button" class="btn btn-info btn-sm" id="save">Save</button>
+      <form method="POST" <?php echo "action=\"./?sid=" . $cookie_studentID . "\""; ?>>
+        <input type="submit" name="save" value="Save" class="btn btn-info btn-sm" id="save">
+        <!-- <button type="button" class="btn btn-info btn-sm" id="save">Save</button> -->
         <div class="form-row">
           <div class="col form-group">
             <label for="preferred_name">preferred name</label>

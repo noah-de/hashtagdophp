@@ -5,6 +5,7 @@ class Person {
 	private $lastname = "";
 	private $role = "";
 	private $email = "";
+	private $alt_email = "";
 	private $times_searched = 0;
 	private $profile_pic_url = "";
 
@@ -36,6 +37,12 @@ class Person {
 	public function getEmail () {
 		return $this->email;
 	}
+	public function setAltEmail ($alt_email) {
+		$this->alt_email = $alt_email;
+	}
+	public function getAltEmail () {
+		return $this->alt_email;
+	}
 	public function setSearchedNum ($searched_num) {
 		$this->searched_num = $searched_num;
 	}
@@ -55,6 +62,7 @@ class Person {
 class Student extends Person {
 	private $student_id = "";
 	private $year = 0;
+	private $preferred_name = "";
 	private $dorm = "";
 	private $room_num = "";
 	private $ms_num = 0;
@@ -88,6 +96,12 @@ class Student extends Person {
 	}
 	public function getYear () {
 		return $this->year;
+	}
+	public function setPreferredName ($preferred_name) {
+		$this->preferred_name = $preferred_name;
+	}
+	public function getPreferredName () {
+		return $this->preferred_name;
 	}
 	public function setDorm ($dorm) {
 		$this->dorm = $dorm;
@@ -285,9 +299,11 @@ class StudentHelper extends Student {
 		$this->setLastname($person['lastname']);
 		$this->setRole($person['role']);
 		$this->setEmail($person['email']);
+		$this->setAltEmail($person['alt_email']);
 		$this->setSearchedNum($person['searched_num']);
 		$this->setProfilePicURL($person['profile_pic_url']);
 		$this->setYear($person['year']);
+		$this->setPreferredName($person['preferred_name']);
 		$this->setDorm($person['dorm']);
 		$this->setRoomNum($person['room_num']);
 		$this->setMSNum($person['ms_num']);
@@ -297,7 +313,7 @@ class StudentHelper extends Student {
 	}
 
 	private function psql_boolean ($value) {
-		return ($value == "t");
+		return $value == "t";
 	}
 
 	public function get_all_privacy () {
@@ -392,63 +408,63 @@ class StudentHelper extends Student {
 	public function setter_by_name ($name, $value) {
 		switch ($name) {
 			case "preferred_name":
-				$this->setPreferredName($value);;
+				$this->setPreferredName($value);
 				break;
 
 			case "preferred_name_privacy":
-				$this->setPreferredNamePrivacy($value);;
+				$this->setPreferredNamePrivacy($value);
 				break;
 
 			case "phone_num":
-				$this->setPhoneNum($value);;
+				$this->setPhoneNum($value);
 				break;
 
 			case "phone_num_privacy":
-				$this->setPhoneNumPrivacy($value);;
+				$this->setPhoneNumPrivacy($value);
 				break;
 
 			case "alt_email":
-				$this->setAltEmail($value);;
+				$this->setAltEmail($value);
 				break;
 
 			case "alt_email_privacy":
-				$this->setAltEmailPrivacy($value);;
+				$this->setAltEmailPrivacy($value);
 				break;
 
 			case "profile_pic":
-				$this->setProfilePicURL($value);;
+				$this->setProfilePicURL($value);
 				break;
 
 			case "profile_pic_privacy":
-				$this->setProfilePicPrivacy($value);;
+				$this->setProfilePicPrivacy($value);
 				break;
 
 			case "name_privacy":
-				$this->setNamePrivacy($value);;
+				$this->setNamePrivacy($value);
 				break;
 
 			case "year_privacy":
-				$this->setYearPrivacy($value);;
+				$this->setYearPrivacy($value);
 				break;
 
 			case "email_privacy":
-				$this->setEmailPrivacy($value);;
+				$this->setEmailPrivacy($value);
 				break;
 
 			case "ms_num_privacy":
-				$this->setMSNumPrivacy($value);;
+				$this->setMSNumPrivacy($value);
 				break;
 
 			case "searched_num_privacy":
-				$this->setSearchedNumPrivacy($value);;
+				$this->setSearchedNumPrivacy($value);
 				break;
 
 			case "roommates_privacy":
-				$this->setRoommatesPrivacy($value);;
+				$this->setRoommatesPrivacy($value);
 				break;
 
 			case "dorm_privacy":
-				$this->setDormPrivacy($value);;
+				$this->setDormPrivacy($value);
 				break;
 
 			default:
@@ -460,9 +476,9 @@ class StudentHelper extends Student {
 	public function setRoommates () {
 		$query_string = "SELECT roommate FROM roommates WHERE student = '" . $this->student_id . "';";
 		$prepare_query = pg_query($this->db, $query_string);
-		$roommate_array_array = pg_fetch_all($prepare_query); //array of 1 or 2 student_ids
+		$roommate_array = pg_fetch_all($prepare_query); //array of 1 or 2 student_ids
 		$this->roommates = array();
-		foreach($roommate_array_array as $roommate) {
+		foreach($roommate_array as $roommate) {
 			array_push($this->roommates, $roommate['roommate']);
 		}
 	}

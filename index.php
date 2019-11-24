@@ -82,25 +82,25 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
    <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
+        <a class="nav-link" href="https://www.westmont.edu/about">About</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/academics">ACADEMICS</a>
+        <a class="nav-link" href="https://www.westmont.edu/academics">Academics</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/admissions-aid">ADMISSIONS & AID</a>
+        <a class="nav-link" href="https://www.westmont.edu/admissions-aid">Admissions & Aid</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/student-life">STUDENT LIFE</a>
+        <a class="nav-link" href="https://www.westmont.edu/student-life">Student Life</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/giving">GIVING</a>
+        <a class="nav-link" href="https://www.westmont.edu/giving">Giving</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
+        <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">Athletics</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./login/">LOGIN</a>
+        <a class="nav-link" href="./login/">Login</a>
       </li>
       <?php
       if (isset($_COOKIE['student_id'])) {
@@ -123,7 +123,8 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 
 <div class="hero-image">
   <div class="hero-text" align="center">
-    <h1>Welcome to Westmont Student Finder</h1>
+    <h1>Welcome to Westmont Student Finder!</h1>
+    <h2> Find Your Community Below </h2>
   </div>
 </div>
 
@@ -170,11 +171,11 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 					    		<div class="form-row">
 								    <div class="col form-group">
 								    	<label for="adv_firstname">First name</label>
-									    <input type="text" class="form-control" id="adv_firstname" name="adv_firstname" placeholder="Riley">
+									    <input type="text" class="form-control" id="adv_firstname" name="adv_firstname" placeholder="Jane">
 								    </div>
 								    <div class="col form-group">
 								    	<label for="adv_lastname">Last name</label>
-									    <input type="text" class="form-control" id="adv_lastname" name="adv_lastname" placeholder="Jackson">
+									    <input type="text" class="form-control" id="adv_lastname" name="adv_lastname" placeholder="Doe">
 								    </div>
 								  </div>
 								  <div class="form-row">
@@ -198,7 +199,7 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 								  <div class="form-row">
 								    <div class="col form-group">
 								  		<label for="adv_roommates">Roommates with</label>
-									    <input type="text" class="form-control" id="adv_roommates" name="adv_roommates" placeholder="Dylan Monacelli">
+									    <input type="text" class="form-control" id="adv_roommates" name="adv_roommates" placeholder="Gayle Bebee">
 							  		</div>
 								  </div>
 								  <div class="form-row">

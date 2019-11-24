@@ -161,53 +161,7 @@ if (count($search_results) > 10) {
   </div>
 </div>
 
-
 <br>
-
-<!-- <div id="search_carousel" class="carousel slide" data-interval="false" data-ride="carousel" data-pause="hover">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-    	<div class="container" id="reg_search_cont">
-			  <div class="row">
-			    <div class="col-md-10">
-			      <form method="POST" action="./index.php" name="reg_search">
-			        <div class="input-group mb-3">
-			          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
-			          <?php 
-			          echo "value=\"" . $basic_search_query . "\"";
-			          ?>>
-			          <div class="input-group-append">
-			            <input class="btn btn-outline-secondary" type="submit" value="Search" name="submit" id="reg_submit">
-			          </div>
-			        </div>
-			      </form>
-			    </div>
-			  </div>
-			</div>
-    </div>
-    <div class="carousel-item">
-      <div class="container" id="adv_search_cont">
-				<div class="row">
-			    <div class="col-md-10">
-			    	<form method="POST" action="./index.php" name="reg_search">
-			        <div class="input-group mb-3">
-			        	
-			        </div>
-			      </form>
-			    </div>
-			  </div>
-			</div>
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#search_carousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#search_carousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div> -->
 
 <div class="container">
 	<div class="row">

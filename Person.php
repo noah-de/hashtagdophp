@@ -62,6 +62,18 @@ class Student extends Person {
 	private $primary_contact = "";
 	private $roommates = array();
 
+	private $name_privacy = false;
+	private $preferred_name_privacy = false;
+	private $year_privacy = false;
+	private $email_privacy = false;
+	private $alt_email_privacy = false;
+	private $phone_num_privacy = false;
+	private $dorm_privacy = false;
+	private $room_num_privacy = false;
+	private $ms_num_privacy = false;
+	private $roommates_privacy = false;
+	private $searched_num_privacy = false;
+	private $profile_pic_privacy = false;
 
 	function __construct($student_id) {
 		$this->student_id = $student_id;
@@ -107,10 +119,91 @@ class Student extends Person {
 	public function getPrimaryContact () {
 		return $this->primary_contact;
 	}
-	// must be passed in as an array
-	/*public function setRoommates ($roommates) {
-		$this->roommates = $roommates;
-	}*/
+	
+	public function setNamePrivacy ($state) {
+	    $this->name_privacy = $state;
+	}
+
+	public function getNamePrivacy () {
+	    return $this->name_privacy;
+	}
+	public function setPreferredNamePrivacy ($state) {
+	    $this->preferred_name_privacy = $state;
+	}
+
+	public function getPreferredNamePrivacy () {
+	    return $this->preferred_name_privacy;
+	}
+	public function setYearPrivacy ($state) {
+	    $this->year_privacy = $state;
+	}
+
+	public function getYearPrivacy () {
+	    return $this->year_privacy;
+	}
+	public function setEmailPrivacy ($state) {
+	    $this->email_privacy = $state;
+	}
+
+	public function getEmailPrivacy () {
+	    return $this->email_privacy;
+	}
+	public function setAltEmailPrivacy ($state) {
+	    $this->alt_email_privacy = $state;
+	}
+
+	public function getAltEmailPrivacy () {
+	    return $this->alt_email_privacy;
+	}
+	public function setPhoneNumPrivacy ($state) {
+	    $this->phone_num_privacy = $state;
+	}
+
+	public function getPhoneNumPrivacy () {
+	    return $this->phone_num_privacy;
+	}
+	public function setDormPrivacy ($state) {
+	    $this->dorm_privacy = $state;
+	}
+
+	public function getDormPrivacy () {
+	    return $this->dorm_privacy;
+	}
+	public function setRoomNumPrivacy ($state) {
+	    $this->room_num_privacy = $state;
+	}
+
+	public function getRoomNumPrivacy () {
+	    return $this->room_num_privacy;
+	}
+	public function setMSNumPrivacy ($state) {
+	    $this->ms_num_privacy = $state;
+	}
+
+	public function getMSNumPrivacy () {
+	    return $this->ms_num_privacy;
+	}
+	public function setRoommatesPrivacy ($state) {
+	    $this->roommates_privacy = $state;
+	}
+
+	public function getRoommatesPrivacy () {
+	    return $this->roommates_privacy;
+	}
+	public function setSearchedNumPrivacy ($state) {
+	    $this->searched_num_privacy = $state;
+	}
+
+	public function getSearchedNumPrivacy () {
+	    return $this->searched_num_privacy;
+	}
+	public function setProfilePicPrivacy ($state) {
+	    $this->profile_pic_privacy = $state;
+	}
+
+	public function getProfilePicPrivacy () {
+	    return $this->profile_pic_privacy;
+	}
 }
 
 class Faculty extends Person {
@@ -139,6 +232,19 @@ class StudentHelper extends Student {
 	 * private $phone_num = "";
 	 * private $primary_contact = "";
 	 * private $roommates = array();
+	 * 
+	 * private $name_privacy = false;
+	 * private $preferred_name_privacy = false;
+	 * private $year_privacy = false;
+	 * private $email_privacy = false;
+	 * private $alt_email_privacy = false;
+	 * private $phone_num_privacy = false;
+	 * private $dorm_privacy = false;
+	 * private $room_num_privacy = false;
+	 * private $ms_num_privacy = false;
+	 * private $roommates_privacy = false;
+	 * private $searched_num_privacy = false;
+	 * private $profile_pic_privacy = false;
 	 */
 
 	private function connect_db () {
@@ -190,6 +296,32 @@ class StudentHelper extends Student {
 		$this->setRoommates();
 	}
 
+	private function psql_boolean ($value) {
+		return ($value == "t");
+	}
+
+	public function get_all_privacy () {
+		$query_string = "SELECT * FROM privacy WHERE student_id = '" . $this->student_id . "';";
+		$prepare_query = pg_query($this->db, $query_string);
+		return pg_fetch_assoc($prepare_query);
+	}
+
+	public function set_all_privacy () {
+		$person = $this->get_all_privacy();
+		$this->setNamePrivacy($this->psql_boolean($person['name']));
+		$this->setPreferredNamePrivacy($this->psql_boolean($person['preferred_name']));
+		$this->setYearPrivacy($this->psql_boolean($person['year']));
+		$this->setEmailPrivacy($this->psql_boolean($person['email']));
+		$this->setAltEmailPrivacy($this->psql_boolean($person['alt_email']));
+		$this->setPhoneNumPrivacy($this->psql_boolean($person['phone_num']));
+		$this->setDormPrivacy($this->psql_boolean($person['dorm']));
+		$this->setRoomNumPrivacy($this->psql_boolean($person['room_num']));
+		$this->setMSNumPrivacy($this->psql_boolean($person['ms_num']));
+		$this->setRoommatesPrivacy($this->psql_boolean($person['roommates']));
+		$this->setSearchedNumPrivacy($this->psql_boolean($person['searched_num']));
+		$this->setProfilePicPrivacy($this->psql_boolean($person['profile_pic']));
+	}
+
 	// sets $this->roommates to array of student_ids of roommates from roommates table where the student column is equal to this student's student_id
 	public function setRoommates () {
 		$query_string = "SELECT roommate FROM roommates WHERE student = '" . $this->student_id . "';";
@@ -199,7 +331,6 @@ class StudentHelper extends Student {
 		foreach($roommate_array_array as $roommate) {
 			array_push($this->roommates, $roommate['roommate']);
 		}
-
 	}
 
 	public function getRoommates () {

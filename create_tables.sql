@@ -1,5 +1,5 @@
 CREATE TABLE person (
-	student_id		CHAR(8) KEY,
+	student_id		CHAR(7) KEY,
 	
 	firstname		VARCHAR(128) NOT NULL, --READONLY
 	lastname		VARCHAR(128) NOT NULL, --READONLY
@@ -12,40 +12,34 @@ CREATE TABLE person (
 	email			VARCHAR(128) NOT NULL,
 	primary_contact	TINYINT DEFAULT 0 NOT NULL, --or VARCHAR(16)
 	searched_num	INT DEFAULT 0 NOT NULL,
-	profile_pic		VARCHAR(256) NOT NULL
+	profile_pic		VARCHAR(256) NOT NULL,
+	preferred_name	VARCHAR(128) DEFAULT NULL,
+	alt_email		VARCHAR(128) DEFAULT NULL,
 ) UNIQUE (student_id) PRIMARY KEY (student_id);
 
 CREATE TABLE student_privacy (
-	student_id		CHAR(8) KEY,
+	student_id		CHAR(7) KEY,
 	
-	name			BOOL DEFAULT 1 NOT NULL,
-	role			BOOL DEFAULT 1 NOT NULL,
-	year			BOOL DEFAULT 0 NOT NULL,
-	dorm			BOOL DEFAULT 0 NOT NULL,
-	room_num		BOOL DEFAULT 0 NOT NULL,
-	ms_num			BOOL DEFAULT 0 NOT NULL,
-	social_media	BOOL DEFAULT 0 NOT NULL,
-	roommates		BOOL DEFAULT 0 NOT NULL
-) UNIQUE (student_id) PRIMARY KEY (student_id);
-
-CREATE TABLE social_media (
-	student_id		CHAR(8) KEY,
-	
-	stalkernet		BOOL NOT NULL,
-	facebook		VARCHAR(128) NOT NULL,
-	instagram		VARCHAR(128) NOT NULL,
-	twitter			VARCHAR(128) NOT NULL,
-	snapchat		VARCHAR(128) NOT NULL,
-	groupme			VARCHAR(128) NOT NULL
+	name			BOOLEAN DEFAULT true NOT NULL,
+	preferred_name	BOOLEAN DEFAULT false NOT NULL,
+	year			BOOLEAN DEFAULT true NOT NULL,
+	email			BOOLEAN DEFAULT true NOT NULL,
+	alt_email		BOOLEAN DEFAULT false NOT NULL,
+	phone_num		BOOLEAN DEFAULT true NOT NULL,
+	dorm			BOOLEAN DEFAULT true NOT NULL,
+	room_num		BOOLEAN DEFAULT true NOT NULL,
+	ms_num			BOOLEAN DEFAULT true NOT NULL,
+	roommates		BOOLEAN DEFAULT true NOT NULL,
+	searched_num	BOOLEAN DEFAULT true NOT NULL
 ) UNIQUE (student_id) PRIMARY KEY (student_id);
 
 CREATE TABLE roommate (
-	student			CHAR(8),
-	roommate		CHAR(8)
+	student			CHAR(7),
+	roommate		CHAR(7)
 );
 
 CREATE TABLE user_login (
-	student_id		CHAR(8) KEY,
+	student_id		CHAR(7) KEY,
 	
 	username		VARCHAR(16),
 	hashpass		CHAR(64)

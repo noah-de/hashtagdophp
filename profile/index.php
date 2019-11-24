@@ -353,8 +353,10 @@ if ($update_privacy_query_string_cols_vals !== "") {
           </div>
         </div>
         <div class="form-row">
-          <div class="col">dorm: <?php echo $student->getDorm(); ?></div>
-          <div class="col">room num: <?php echo $student->getRoomNum(); ?></div>
+          <div class="col">
+            <p>dorm: <?php echo $student->getDorm(); ?></p>
+            <p>room num: <?php echo $student->getRoomNum(); ?></p>
+          </div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
               <input type="hidden" name="dorm_privacy" value="0">

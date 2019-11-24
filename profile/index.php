@@ -29,11 +29,12 @@ $student->set_all();
 $student->set_all_privacy();
 
 
+
 /*
  * update handler
  */
 
-
+foreach ()
 
 ?>
 
@@ -159,7 +160,7 @@ $student->set_all_privacy();
           </div>
           <div class="col">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="preferred_name_privacy" id="preferred_name_privacy" checked>
+              <input type="checkbox" class="custom-control-input privacy" name="preferred_name_privacy" id="preferred_name_privacy" <?php echo ($student->getPreferredNamePrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="preferred_name_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -171,7 +172,7 @@ $student->set_all_privacy();
           </div>
           <div class="col">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="phone_num_privacy" id="phone_num_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="phone_num_privacy" id="phone_num_privacy" <?php echo ($student->getPhoneNumPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="phone_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -183,7 +184,7 @@ $student->set_all_privacy();
           </div>
           <div class="col">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="alt_email_privacy" id="alt_email_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="alt_email_privacy" id="alt_email_privacy" <?php echo ($student->getAltEmailPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="alt_email_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -199,7 +200,7 @@ $student->set_all_privacy();
           </div>
           <div class="col">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="profile_pic_privacy" id="profile_pic_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="profile_pic_privacy" id="profile_pic_privacy" <?php echo ($student->getProfilePicPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="profile_pic_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -208,7 +209,7 @@ $student->set_all_privacy();
           <div class="col">name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="name_privacy" id="name_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="name_privacy" id="name_privacy" <?php echo ($student->getNamePrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="name_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -217,7 +218,7 @@ $student->set_all_privacy();
           <div class="col">year: <?php echo $student->getYear(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="year_privacy" id="year_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="year_privacy" id="year_privacy" <?php echo ($student->getYearPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="year_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -226,7 +227,7 @@ $student->set_all_privacy();
           <div class="col">email: <?php echo $student->getEmail(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="email_privacy" id="email_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="email_privacy" id="email_privacy" <?php echo ($student->getEmailPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="email_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -235,7 +236,7 @@ $student->set_all_privacy();
           <div class="col">MS#: <?php echo $student->getMSNum(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="ms_num_privacy" id="ms_num_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="ms_num_privacy" id="ms_num_privacy" <?php echo ($student->getMSNumPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="ms_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -244,7 +245,7 @@ $student->set_all_privacy();
           <div class="col">Searched num: <?php echo $student->getSearchedNum(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="searched_num_privacy" id="searched_num_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="searched_num_privacy" id="searched_num_privacy" <?php echo ($student->getSearchedNumPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="searched_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -253,7 +254,7 @@ $student->set_all_privacy();
           <div class="col">Allow to be searched by roommates</div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="roommates_privacy" id="roommates_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="roommates_privacy" id="roommates_privacy" <?php echo ($student->getRoommatesPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="roommates_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -263,7 +264,7 @@ $student->set_all_privacy();
           <div class="col">room num: <?php echo $student->getRoomNum(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="dorm_privacy" id="dorm_privacy">
+              <input type="checkbox" class="custom-control-input privacy" name="dorm_privacy" id="dorm_privacy" <?php echo ($student->getDormPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="dorm_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>

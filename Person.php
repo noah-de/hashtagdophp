@@ -322,6 +322,140 @@ class StudentHelper extends Student {
 		$this->setProfilePicPrivacy($this->psql_boolean($person['profile_pic']));
 	}
 
+	public function getter_by_name ($name) {
+		switch ($name) {
+			case: "preferred_name":
+				return $this->getPreferredName();
+				break;
+
+			case: "preferred_name_privacy":
+				return $this->getPreferredNamePrivacy();
+				break;
+
+			case: "phone_num":
+				return $this->getPhoneNum();
+				break;
+
+			case: "phone_num_privacy":
+				return $this->getPhoneNumPrivacy();
+				break;
+
+			case: "alt_email":
+				return $this->getAltEmail();
+				break;
+
+			case: "alt_email_privacy":
+				return $this->getAltEmailPrivacy();
+				break;
+
+			case: "profile_pic":
+				return $this->getProfilePicURL();
+				break;
+
+			case: "profile_pic_privacy":
+				return $this->getProfilePicPrivacy();
+				break;
+
+			case: "name_privacy":
+				return $this->getNamePrivacy();
+				break;
+
+			case: "year_privacy":
+				return $this->getYearPrivacy();
+				break;
+
+			case: "email_privacy":
+				return $this->getEmailPrivacy();
+				break;
+
+			case: "ms_num_privacy":
+				return $this->getMSNumPrivacy();
+				break;
+
+			case: "searched_num_privacy":
+				return $this->getSearchedNumPrivacy();
+				break;
+
+			case: "roommates_privacy":
+				return $this->getRoommatesPrivacy();
+				break;
+
+			case: "dorm_privacy":
+				return $this->getDormPrivacy();
+				break;
+
+			default:
+				return NULL;
+		}
+	}
+
+	public function setter_by_name ($name, $value) {
+		switch ($name) {
+			case: "preferred_name":
+				$this->setPreferredName($value);;
+				break;
+
+			case: "preferred_name_privacy":
+				$this->setPreferredNamePrivacy($value);;
+				break;
+
+			case: "phone_num":
+				$this->setPhoneNum($value);;
+				break;
+
+			case: "phone_num_privacy":
+				$this->setPhoneNumPrivacy($value);;
+				break;
+
+			case: "alt_email":
+				$this->setAltEmail($value);;
+				break;
+
+			case: "alt_email_privacy":
+				$this->setAltEmailPrivacy($value);;
+				break;
+
+			case: "profile_pic":
+				$this->setProfilePicURL($value);;
+				break;
+
+			case: "profile_pic_privacy":
+				$this->setProfilePicPrivacy($value);;
+				break;
+
+			case: "name_privacy":
+				$this->setNamePrivacy($value);;
+				break;
+
+			case: "year_privacy":
+				$this->setYearPrivacy($value);;
+				break;
+
+			case: "email_privacy":
+				$this->setEmailPrivacy($value);;
+				break;
+
+			case: "ms_num_privacy":
+				$this->setMSNumPrivacy($value);;
+				break;
+
+			case: "searched_num_privacy":
+				$this->setSearchedNumPrivacy($value);;
+				break;
+
+			case: "roommates_privacy":
+				$this->setRoommatesPrivacy($value);;
+				break;
+
+			case: "dorm_privacy":
+				$this->setDormPrivacy($value);;
+				break;
+
+			default:
+				return NULL;
+		}
+	}
+
 	// sets $this->roommates to array of student_ids of roommates from roommates table where the student column is equal to this student's student_id
 	public function setRoommates () {
 		$query_string = "SELECT roommate FROM roommates WHERE student = '" . $this->student_id . "';";

@@ -51,7 +51,7 @@ function create_incrementer_query_str ($student_ids) {
  * 
  */
 
-if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['basic_search_query']) || !isset($_POST['basic_search_query']))) {
+if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
   $query_string = "SELECT $search_columns FROM person ORDER BY lastname, firstname DESC;";
   $prepare_query = pg_query($db, $query_string);
   $show_all_results = pg_fetch_all($prepare_query);
@@ -143,13 +143,13 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['ba
 			</ul>
 			<div class="tab-content" id="searches_content">
 			  <div class="tab-pane fade show active" id="reg" role="tabpanel" aria-labelledby="reg-tab">
-			  	<!-- <div class="container" id="reg_search_cont"> -->
+			  		<form method="POST" action="./" name="show-all-form" id="show-all-form"><input type="hidden" name="show-all" value="show-all"><!-- <input type="submit" name="show-all-submit" value="show-all-submit" id="show-all-submit"> --></form>
 					  <div class="row" id="reg_search_cont">
 					    <div class="col-md-12">
 					      <form method="POST" action="./" name="reg">
 					        <div class="input-group mb-3">
 					        	<div class="input-group-prepend">
-					            <button class="btn btn-outline-secondary" tabindex="-1" id="show-all">Show all</button>
+					            <button class="btn btn-outline-secondary" tabindex="-1" id="show-all-btn" form="show-all-form">Show all</button>
 					          </div>
 					          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
 					          <?php 

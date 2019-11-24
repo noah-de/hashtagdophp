@@ -102,7 +102,7 @@ $previous_page = 0;
  */
 
 if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
-  $query_string = "SELECT $search_columns FROM person;";
+  $query_string = "SELECT $search_columns FROM person ORDER BY lastname, firstname DESC;";
   $prepare_query = pg_query($db, $query_string);
   $show_all_results = pg_fetch_all($prepare_query);
 }

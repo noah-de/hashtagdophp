@@ -3,7 +3,7 @@ $(function() {
 
 	$('#editable_content').toggle();
 
-	$('#edit, #save').click(function () {
+	$('#edit, #cancel').click(function () {
 		$('.profile_content').toggle();
 	});
 

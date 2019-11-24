@@ -20,8 +20,11 @@ $user_info_prepare_query = pg_query($db, $user_info_query_string);
 $user_info_result = pg_fetch_assoc($user_info_prepare_query);
 
 $basic_search_query = $_POST['basic_search_query'];
-//$reg_search_query_string = "SELECT firstname, lastname, dorm, profile_pic_url FROM person;"; //postgres command
-$reg_search_query_string = "SELECT student_id, firstname, lastname, dorm, searched_num, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
+
+$search_columns = "student_id, firstname, lastname, dorm, searched_num, profile_pic_url";
+
+
+$reg_search_query_string = "SELECT $search_columns FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
 $reg_search_query = pg_query($db, $reg_search_query_string);
 $search_results = pg_fetch_all($reg_search_query);
 
@@ -37,10 +40,12 @@ function create_incrementer_query_str ($student_ids) {
 	return $query_whole;
 }
 
-$results_ids = array_column($search_results, 'student_id');
-
-$increment_results_query_string = create_incrementer_query_str($results_ids);
-$increment_results_query = pg_query($increment_results_query_string);
+/** moved to line 281
+ * $results_ids = array_column($search_results, 'student_id');
+ * 
+ * $increment_results_query_string = create_incrementer_query_str($results_ids);
+ * $increment_results_query = pg_query($increment_results_query_string);
+ */
 //$search_results = pg_fetch_assoc($reg_search_query); //runs postgres command on db
 
 //var_dump($search_results);
@@ -73,20 +78,33 @@ $current_page = 0;
 $next_page = 0;
 $previous_page = 0;
 
-if (count($search_results) > 10) {
-  $page_query = (isset($_GET['page'])) ? $_GET['page'] : 0;
+// if (count($search_results) > 10) {
+//   $page_query = (isset($_GET['page'])) ? $_GET['page'] : 0;
 
-  if ($page_query == 0) {
-    $current_page = 1;
-    $next_page = 2;
-    $previous_page = 0;
-  }
-  if ($page_query > 0) {
-    $current_page = $page_query;
-    $next_page = $page_query + 1;
-    $previous_page = $page_query - 1;
-  }
-  $limited_search_query_string = "SELECT student_id, firstname, lastname, dorm, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
+//   if ($page_query == 0) {
+//     $current_page = 1;
+//     $next_page = 2;
+//     $previous_page = 0;
+//   }
+//   if ($page_query > 0) {
+//     $current_page = $page_query;
+//     $next_page = $page_query + 1;
+//     $previous_page = $page_query - 1;
+//   }
+//   $limited_search_query_string = "SELECT student_id, firstname, lastname, dorm, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
+// }
+
+
+/*
+ *
+ * Get all 
+ * 
+ */
+
+if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
+  $query_string = "SELECT $search_columns FROM person;";
+  $prepare_query = pg_query($db, $query_string);
+  $show_all_results = pg_fetch_all($prepare_query);
 }
 
 ?>
@@ -110,7 +128,7 @@ if (count($search_results) > 10) {
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
-  <a class="navbar-brand" href="https://www.westmont.edu">
+  <a class="navbar-brand" href="./">
     <img src="./images/westmont.png" height="30" alt="">
   </a>
    <div class="collapse navbar-collapse" id="navbarNav">
@@ -182,7 +200,7 @@ if (count($search_results) > 10) {
 					      <form method="POST" action="./" name="reg">
 					        <div class="input-group mb-3">
 					        	<div class="input-group-prepend">
-					            <input class="btn btn-outline-secondary" type="submit" value="Show all" name="submit" id="reg_submit">
+					            <input class="btn btn-outline-secondary" type="submit" value="Show all" name="show-all" id="reg_submit">
 					          </div>
 					          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
 					          <?php 
@@ -252,17 +270,24 @@ if (count($search_results) > 10) {
 <br>
 
 <div class="container">
-  <ul class="list-group list-group-flush" id="results">
+  <ul class="list-group-flush row" id="results">
     <?php
-      if (empty($search_results)) {
-        echo "<p> No results were found. </p>";
+      if (!empty($search_results) || !empty($show_all_results)) {
+      	if (count($show_all_results) > 0) {
+      		$search_results = $show_all_results;
+      	}
 
-      } else {
+      	$results_ids = array_column($search_results, 'student_id');
+				$increment_results_query_string = create_incrementer_query_str($results_ids);
+				$increment_results_query = pg_query($increment_results_query_string);
+
+				$breaker_counter = 0;
+
         foreach ($search_results as $student) {
         	$wholename = $student['firstname'] . " " . $student['lastname'];
         	$searched_num = $student['searched_num'] + 1; // to reflect this search
 
-          echo "<li class=\"list-group-item card\">";
+          echo "<li class=\"card col-md-3 result\">";
           echo "<span class=\"trim rounded-circle align-items-center\"><img src=\"./images/" . $student['profile_pic_url'] . "\" class=\"card-image-top\" alt=\"" . $wholename . "\"></span>";
 	          echo "<div class=\"card-body\">";
 	          	echo "<h5 class=\"card-title\">" . $wholename . "</h5>";
@@ -276,7 +301,15 @@ if (count($search_results) > 10) {
 					    echo "<a href=\"./profile/?sid=" . $student['student_id'] . "\" class=\"card-link\">Profile page</a>";
 					  echo "</div>";
           echo "</li>";
+
+          $breaker_counter++;
+          if (($breaker_counter % 3) == 0) {
+          	echo "<div class=\"w-100\"></div>";
+          }
         }
+      }
+      else if ((empty($_POST['show-all']) || !isset($_POST['show-all'])) && (empty($_POST['submit']) || !isset($_POST['submit']))) {
+      	echo "<p>No results were found.</p>";
       }
       /* if ($previous_page < $current_page) {
         echo "<a href=\"?page=" . $page - 1 . "\">&lt;Page " . $page - 1 . "</a>";

@@ -149,13 +149,15 @@ body, html {
   border-color: #dee2e6 #dee2e6 #eee;
 }
 
-li.list-group-item.card {
-  width: 16rem;
-}
 .trim {
   max-height: 125px;
   max-width: 125px;
   overflow: hidden;
+}
+
+.result {
+  margin: 1rem;
+  padding: 0.69rem;
 }
 
 .dorm {

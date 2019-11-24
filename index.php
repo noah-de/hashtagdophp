@@ -24,9 +24,9 @@ $basic_search_query = $_POST['basic_search_query'];
 $search_columns = "student_id, firstname, lastname, dorm, searched_num, profile_pic_url";
 
 $lowercase_basic_search_query = strtolower($basic_search_query);
-$reg_search_query_string = "SELECT $search_columns FROM person WHERE " . $lowercase_basic_search_query . " LIKE LOWER('%' || firstname || '%') OR " . $lowercase_basic_search_query . " LIKE LOWER('%' || lastname || '%') OR " . $lowercase_basic_search_query . " LIKE LOWER('%' || preferred_name || '%');"; // this query gets more and more fucked every commit
+$reg_search_query_string = "SELECT $search_columns FROM person WHERE '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || firstname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || lastname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || preferred_name || '%');"; // this query gets more and more fucked every commit
 $reg_search_query = pg_query($db, $reg_search_query_string);
-$search_results = pg_fetch_all($reg_search_query);
+// pg_fetch_all moved to bottom
 
 function create_incrementer_query_str ($student_ids) {
 	$query_beg = "UPDATE person SET searched_num = searched_num + 1 WHERE student_id = '";
@@ -51,7 +51,7 @@ function create_incrementer_query_str ($student_ids) {
  * 
  */
 
-if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
+if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['basic_search_query']) || !isset($_POST['basic_search_query']))) {
   $query_string = "SELECT $search_columns FROM person ORDER BY lastname, firstname DESC;";
   $prepare_query = pg_query($db, $query_string);
   $show_all_results = pg_fetch_all($prepare_query);
@@ -148,7 +148,7 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 					      <form method="POST" action="./" name="reg">
 					        <div class="input-group mb-3">
 					        	<div class="input-group-prepend">
-					            <input class="btn btn-outline-secondary" type="submit" value="Show all" name="show-all" id="reg_submit">
+					            <button class="btn btn-outline-secondary" tabindex="-1" id="show-all">Show all</button>
 					          </div>
 					          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
 					          <?php 
@@ -220,16 +220,19 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 <div class="container">
   <ul class="list-group-flush row" id="results">
     <?php
+		$search_results = pg_fetch_all($reg_search_query);
+
+		// var_dump($search_results);
       if (!empty($search_results) || !empty($show_all_results)) {
-      	if (count($show_all_results) > 0) {
+      	if ((!empty($show_all_results)) && (count($show_all_results) > 0)) {
       		$search_results = $show_all_results;
       	}
 
       	$results_ids = array_column($search_results, 'student_id');
-				$increment_results_query_string = create_incrementer_query_str($results_ids);
-				$increment_results_query = pg_query($increment_results_query_string);
+		$increment_results_query_string = create_incrementer_query_str($results_ids);
+		$increment_results_query = pg_query($increment_results_query_string);
 
-				$breaker_counter = 0;
+		$breaker_counter = 0;
 
         foreach ($search_results as $student) {
         	$wholename = $student['firstname'] . " " . $student['lastname'];

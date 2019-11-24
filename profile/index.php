@@ -37,7 +37,14 @@ function checkbox_boolean_helper ($value) {
 }
 
 
-$update_query_string_columns = "UPDATE (";
+$update_person_query_string_beg = "UPDATE person SET";
+$update_person_query_string_end = " WHERE student_id = '" . $cookie_studentID . "';";
+$update_person_query_string_cols_vals = "";
+
+$update_privacy_query_string_beg = "UPDATE privacy SET";
+$update_privacy_query_string_end = " WHERE student_id = '" . $cookie_studentID . "';";
+$update_privacy_query_string_cols_vals = "";
+
 
 // var_dump($student);
 
@@ -49,20 +56,37 @@ foreach ($_POST as $key=>$value) {
     $form_value = checkbox_boolean_helper($form_value);
   }
 
-  if (($key == "profile_pic") || ($key == "save") || ($orig_value != NULL)) {
-    break;
-  }
-
-  if ($orig_value != $form_value) {
+  if (!(($key == "profile_pic") || ($key == "save") || ($orig_value != NULL)) && ($orig_value != $form_value)) {
     $student->setter_by_name($key, $form_value);
 
-    echo "\$key: " . $key . ";";
-    echo "\$orig_value: " . $orig_value . ";";
-    echo "\$form_value: " . $form_value . ";<br>";
+    if (strpos($key, "_privacy")) {
+      $key = rtrim($key, "_privacy");
+      $update_privacy_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";
+    }
+    else {
+      $update_person_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";
+    }
   }
 }
 
-// var_dump($student);
+var_dump($student);
+
+
+if ($update_person_query_string_cols_vals !== "") {
+  $update_person_query_string_cols_vals = rtrim($update_person_query_string_cols_vals, ",");
+
+  $update_person_query_string = $update_person_query_string_beg . $update_person_query_string_cols_vals . $update_person_query_string_end;
+  echo $update_person_query_string;
+  // $update_person_query = pg_query($db, $update_person_query_string);
+}
+if ($update_privacy_query_string_cols_vals !== "") {
+  $update_privacy_query_string_cols_vals = rtrim($update_privacy_query_string_cols_vals, ",");
+
+  $update_privacy_query_string = $update_privacy_query_string_beg . $update_privacy_query_string_cols_vals . $update_privacy_query_string_end;
+  echo $update_privacy_query_string;
+  // $update_privacy_query = pg_query($db, $update_privacy_query_string);
+}
+
 
 ?>
 
@@ -179,11 +203,12 @@ foreach ($_POST as $key=>$value) {
     <div class="container profile_content" id="editable_content">
       <form method="POST" <?php echo "action=\"./?sid=" . $cookie_studentID . "\""; ?>>
         <input type="submit" name="save" value="Save" class="btn btn-info btn-sm" id="save">
+        <button type="button" class="btn btn-secondary btn-sm" id="cancel">Cancel</button>
         <!-- <button type="button" class="btn btn-info btn-sm" id="save">Save</button> -->
         <div class="form-row">
           <div class="col form-group">
             <label for="preferred_name">preferred name</label>
-            <input type="text" class="form-control" id="preferred_name" aria-describedby="preferred_name-desc" name="preferred_name" placeholder="McLovin">
+            <input type="text" class="form-control" id="preferred_name" aria-describedby="preferred_name-desc" name="preferred_name" placeholder="McLovin" <?php echo "value=\"" . $student->getPreferredName() . "\""; ?>>
             <small id="preferred_name-desc" class="form-text text-muted">Name you would prefer to go by.</small>
           </div>
           <div class="col">

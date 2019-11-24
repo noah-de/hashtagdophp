@@ -24,7 +24,7 @@ $basic_search_query = $_POST['basic_search_query'];
 $search_columns = "student_id, firstname, lastname, dorm, searched_num, profile_pic_url";
 
 
-$reg_search_query_string = "SELECT $search_columns FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
+$reg_search_query_string = "SELECT $search_columns FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || preferred_name || '%');"; // this query gets more and more fucked every commit
 $reg_search_query = pg_query($db, $reg_search_query_string);
 $search_results = pg_fetch_all($reg_search_query);
 
@@ -40,60 +40,10 @@ function create_incrementer_query_str ($student_ids) {
 	return $query_whole;
 }
 
-/** moved to line 281
- * $results_ids = array_column($search_results, 'student_id');
- * 
- * $increment_results_query_string = create_incrementer_query_str($results_ids);
- * $increment_results_query = pg_query($increment_results_query_string);
- */
-//$search_results = pg_fetch_assoc($reg_search_query); //runs postgres command on db
-
-//var_dump($search_results);
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * TODO:																													 *
- * 	 parse out different forms and write corresponding queries 		 *
- * 	 create show-all button and query															 *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-/**
- * Pagination
- * 
- * desc: the janky as hell, works cited– straight outta my ass process that somewhat resembles the functionality of pagination.
- *   when the number of results returned is greater than 10, the first 10 results will be displayed on page 1, remaining results will be displayed on the following pages
- * psql LIMIT query calculated based on
- *   while page_num > 2; LIMIT = (page_num - 1) / 10
- * if results are greater than 10, a page 2 option will be displayed
- *   having no page number query implies ?page=1
- * 
- * vars:
- *   $current_page
- *   $next_page
- *   $previous_page
- *   $page_query
- *   $_GET['page']
- *   $num_results
- */
-$current_page = 0;
-$next_page = 0;
-$previous_page = 0;
-
-// if (count($search_results) > 10) {
-//   $page_query = (isset($_GET['page'])) ? $_GET['page'] : 0;
-
-//   if ($page_query == 0) {
-//     $current_page = 1;
-//     $next_page = 2;
-//     $previous_page = 0;
-//   }
-//   if ($page_query > 0) {
-//     $current_page = $page_query;
-//     $next_page = $page_query + 1;
-//     $previous_page = $page_query - 1;
-//   }
-//   $limited_search_query_string = "SELECT student_id, firstname, lastname, dorm, profile_pic_url FROM person WHERE LOWER('" . $basic_search_query . "') LIKE LOWER('%' || firstname || '%') OR LOWER('" . $basic_search_query . "') LIKE LOWER('%' || lastname || '%');"; // this query gets more and more fucked every commit
-// }
-
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * TODO:													   *
+ * 	 parse out adv search form and write corresponding queries *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /*
  *

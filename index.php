@@ -128,31 +128,29 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
-  <a class="navbar-brand" href="./">
-    <img src="./images/westmont.png" height="30" alt="">
-  </a>
+  <a class="navbar-brand" href="./"><img src="./images/westmont.png" height="30" alt=""></a>
    <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/about"><font color="#FFFFFF">ABOUT</font></a>
+        <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/academics"><font color="#FFFFFF">ACADEMICS</font></a>
+        <a class="nav-link" href="https://www.westmont.edu/academics">ACADEMICS</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/admissions-aid"><font color="#FFFFFF">ADMISSIONS & AID</font></a>
+        <a class="nav-link" href="https://www.westmont.edu/admissions-aid">ADMISSIONS & AID</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/student-life"><font color="#FFFFFF">STUDENT LIFE</font></a>
+        <a class="nav-link" href="https://www.westmont.edu/student-life">STUDENT LIFE</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/giving"><font color="#FFFFFF">GIVING</font></a>
+        <a class="nav-link" href="https://www.westmont.edu/giving">GIVING</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://athletics.westmont.edu/index.aspx"><font color="#FFFFFF">ATHLETICS</font></a>
+        <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="login/"><font color="#FFFFFF">LOGIN</font></a>
+        <a class="nav-link" href="./login/">LOGIN</a>
       </li>
       <?php
       if (isset($_COOKIE['student_id'])) {
@@ -299,7 +297,7 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 	          echo "</ul>";
 	          echo "<div class=\"card-body\">";
 					    echo "<a href=\"./profile/?sid=" . $student['student_id'] . "\" class=\"card-link\">Profile page</a>";
-					  echo "</div>";
+				    echo "</div>";
           echo "</li>";
 
           $breaker_counter++;
@@ -308,7 +306,7 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
           }
         }
       }
-      else if ((empty($_POST['show-all']) || !isset($_POST['show-all'])) && (empty($_POST['submit']) || !isset($_POST['submit']))) {
+      else if ((empty($_POST['show-all']) || !isset($_POST['show-all'])) && !(empty($_POST['submit']) || !isset($_POST['submit']))) {
       	echo "<p>No results were found.</p>";
       }
       /* if ($previous_page < $current_page) {
@@ -320,7 +318,7 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
     ?>
   </ul>
 </div>
-<br>
+<!-- <br>
 <nav aria-label="...">
   <ul class="pagination">
     <li class="page-item disabled">
@@ -335,7 +333,7 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
       <a class="page-link" href="#">Next</a>
     </li>
   </ul>
-</nav>
+</nav> -->
 </body>
 </html>
 <?php

@@ -133,31 +133,31 @@ if ($update_privacy_query_string_cols_vals !== "") {
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light westmont">
-      <a class="navbar-brand" href="https://www.westmont.edu">
+      <a class="navbar-brand" href="../">
         <img src="../images/westmont.png" height="30" alt="">
       </a>
        <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/about"><font color="#FFFFFF">ABOUT</font></a>
+            <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/academics"><font color="#FFFFFF">ACADEMICS</font></a>
+            <a class="nav-link" href="https://www.westmont.edu/academics">ACADEMICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/admissions-aid"><font color="#FFFFFF">ADMISSIONS & AID</font></a>
+            <a class="nav-link" href="https://www.westmont.edu/admissions-aid">ADMISSIONS & AID</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/student-life"><font color="#FFFFFF">STUDENT LIFE</font></a>
+            <a class="nav-link" href="https://www.westmont.edu/student-life">STUDENT LIFE</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/giving"><font color="#FFFFFF">GIVING</font></a>
+            <a class="nav-link" href="https://www.westmont.edu/giving">GIVING</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://athletics.westmont.edu/index.aspx"><font color="#FFFFFF">ATHLETICS</font></a>
+            <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="login/"><font color="#FFFFFF">LOGIN</font></a>
+            <a class="nav-link" href="../login/">LOGIN</a>
           </li>
           <?php
           if (isset($_COOKIE['student_id'])) {
@@ -169,7 +169,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
 
           echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
             echo "<a class=\"dropdown-item\" href=\"./?sid=" . $cookie_studentID . "\">View Profile</a>";
-            echo "<a class=\"dropdown-item\" href=\"../logout\">Logout</a>";
+            echo "<a class=\"dropdown-item\" href=\"../logout/\">Logout</a>";
           echo "</div>";
           echo "</li>";
           }
@@ -177,6 +177,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
         </ul>
       </div>
     </nav>
+    <br>
     <div class="container profile_content" id="static_content">
       <?php
       if ($is_user) {
@@ -186,10 +187,13 @@ if ($update_privacy_query_string_cols_vals !== "") {
       else {
         echo "no edit";
         // show only if privacy is checked and has value
+
+
       }
       ?>
       <ul>
         <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
+        <li>preferred name: <?php echo (!empty($student->getPreferredName())) ? $student->getPreferredName() : ""; ?></li>
         <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
         <li>dorm: <?php echo $student->getDorm(); ?></li>
         <li>email: <a <?php echo "href=\"mailto:" . $student->getEmail() . "\""; ?>><?php echo $student->getEmail(); ?></a></li>
@@ -204,7 +208,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
                 echo "<li>";
                 echo "<img src=\"../images/" . $roommate['profile_pic_url'] . "\">";
                 echo "<p>" . $roommate['firstname'] . " " . $roommate['lastname'] . "</p>";
-                echo "<p><a href=\"http://10.30.49.240:8080/profile/?sid=" . $roommate['student_id'] . "\">Profile</a>";
+                echo "<p><a href=\"./?sid=" . $roommate['student_id'] . "\">Profile</a>";
                 echo "</li>";
               }
             ?>
@@ -241,7 +245,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="preferred_name_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="preferred_name_privacy" id="preferred_name_privacy" <?php echo ($student->getPreferredNamePrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="preferred_name_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="preferred_name_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -254,7 +258,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="phone_num_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="phone_num_privacy" id="phone_num_privacy" <?php echo ($student->getPhoneNumPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="phone_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="phone_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -267,7 +271,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="alt_email_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="alt_email_privacy" id="alt_email_privacy" <?php echo ($student->getAltEmailPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="alt_email_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="alt_email_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -284,7 +288,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="profile_pic_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="profile_pic_privacy" id="profile_pic_privacy" <?php echo ($student->getProfilePicPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="profile_pic_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="profile_pic_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -294,7 +298,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="name_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="name_privacy" id="name_privacy" <?php echo ($student->getNamePrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="name_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="name_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -304,7 +308,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="year_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="year_privacy" id="year_privacy" <?php echo ($student->getYearPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="year_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="year_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -314,7 +318,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="email_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="email_privacy" id="email_privacy" <?php echo ($student->getEmailPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="email_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="email_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -324,7 +328,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="ms_num_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="ms_num_privacy" id="ms_num_privacy" <?php echo ($student->getMSNumPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="ms_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="ms_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -334,7 +338,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="searched_num_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="searched_num_privacy" id="searched_num_privacy" <?php echo ($student->getSearchedNumPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="searched_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="searched_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -344,7 +348,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="roommates_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="roommates_privacy" id="roommates_privacy" <?php echo ($student->getRoommatesPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="roommates_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="roommates_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>
@@ -355,7 +359,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
             <div class="custom-control custom-switch">
               <input type="hidden" name="dorm_privacy" value="0">
               <input type="checkbox" class="custom-control-input privacy" value="1" name="dorm_privacy" id="dorm_privacy" <?php echo ($student->getDormPrivacy()) ? "checked" : ""; ?>>
-              <label class="custom-control-label" for="dorm_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
+              <label class="custom-control-label privacy" for="dorm_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
         </div>

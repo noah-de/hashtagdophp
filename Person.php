@@ -338,6 +338,16 @@ class StudentHelper extends Student {
 		$this->setProfilePicPrivacy($this->psql_boolean($person['profile_pic']));
 	}
 
+	public function get_selected_by_not_private ($selects) {
+		$elements = array();
+		foreach ($selects as $item) {
+			if ($this->getter_by_name($item . "_privacy")) {
+				$elements[$item] = $this->getter_by_name($item);
+			}
+		}
+		return $elements;
+	}
+
 	public function getter_by_name ($name) {
 		switch ($name) {
 			case "preferred_name":

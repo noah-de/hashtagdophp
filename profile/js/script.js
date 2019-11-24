@@ -7,6 +7,17 @@ $(function() {
 		$('.profile_content').toggle();
 	});
 
+	function formatPhoneNum(phoneNumStr) {
+		var cleaned = ('' + phoneNumStr).replace(/\D/g, '');
+		var match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+
+		if (match) {
+	  		var intlCode = (match[1] ? '1-' : '');
+	  		return [intlCode, match[2], '-', match[3], '-', match[4]].join('');
+	    }
+		return null;
+	}
+
 	let tooltipTitles = {
 		"preferred_name_privacy": [
 			"Turn off to prevent others from seeing your preferred name",
@@ -60,6 +71,10 @@ $(function() {
 		var tooltipTitle = (privacyState) ? tooltipTitles[forKey][0] : tooltipTitles[forKey][1];
 
 		$(this).attr('data-original-title', tooltipTitle);
+	});
+
+	$('.static_phone_num').each(function () {
+		$(this).text(formatPhoneNum($(this).text()));
 	});
 
 	$('.privacy').change(function () {

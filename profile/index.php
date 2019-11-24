@@ -33,7 +33,7 @@ $student->set_all_privacy();
  */
 
 function checkbox_boolean_helper ($value) {
-  return $value == "on";
+  return ($value == "on") ? 1 : 0;
 }
 
 
@@ -47,44 +47,68 @@ $update_privacy_query_string_cols_vals = "";
 
 
 // var_dump($student);
+// $test_query_string = "SELECT * FROM privacy WHERE student_id = '" . $cookie_studentID . "';";
+// $test_prepare_query = pg_query($db, $user_info_query_string);
+// $test_result = pg_fetch_assoc($user_info_prepare_query);
 
 foreach ($_POST as $key=>$value) {
   $orig_value = $student->getter_by_name($key);
   $form_value = $value;
 
-  if ($form_value == "on") {
-    $form_value = checkbox_boolean_helper($form_value);
-  }
+  // if ($form_value == "on") {
+  //   $form_value = checkbox_boolean_helper($form_value);
+  // }
 
-  if (!(($key == "profile_pic") || ($key == "save") || ($orig_value != NULL)) && ($orig_value != $form_value)) {
+  $cond_not_prof_pic = ($key != "profile_pic");
+  $cond_not_save = ($key != "save");
+  $cond_not_same = ($orig_value != $form_value);
+  $will_be_added = ($cond_not_prof_pic && $cond_not_save && $cond_not_same);
+
+  /*if ($key == "preferred_name_privacy") {
+    echo "\$key: " . $key . "<br>";
+    echo "\$form_value: " . $form_value . "<br>";
+    echo "\$orig_value: " . $orig_value . "<br>";
+  }*/
+
+  if ($will_be_added) {
     $student->setter_by_name($key, $form_value);
+    // echo "\$key: " . $key . "<br>";
+    // echo "\$form_value: " . $form_value . "<br>";
+    // echo "\$orig_value: " . $orig_value . "<br>";
+    $privacy_str_pos = strpos($key, "_privacy");
 
-    if (strpos($key, "_privacy")) {
-      $key = rtrim($key, "_privacy");
+    if (is_numeric($privacy_str_pos)) {
+      $key = substr($key, 0, $privacy_str_pos);
+      // echo "\$key: " . $key . "<br>";
+      // echo "\$form_value: " . $form_value . "<br>";
+      // echo "\$orig_value: " . $orig_value . "<br>";
       $update_privacy_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";
     }
     else {
       $update_person_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";
     }
   }
+  // else if (!$cond_not_prof_pic) {
+
+  // }
 }
 
-var_dump($student);
+// var_dump($student);
 
 
 if ($update_person_query_string_cols_vals !== "") {
   $update_person_query_string_cols_vals = rtrim($update_person_query_string_cols_vals, ",");
 
   $update_person_query_string = $update_person_query_string_beg . $update_person_query_string_cols_vals . $update_person_query_string_end;
-  echo $update_person_query_string;
-  // $update_person_query = pg_query($db, $update_person_query_string);
+  // echo $update_person_query_string;
+  $update_person_query = pg_query($db, $update_person_query_string);
 }
 if ($update_privacy_query_string_cols_vals !== "") {
   $update_privacy_query_string_cols_vals = rtrim($update_privacy_query_string_cols_vals, ",");
 
   $update_privacy_query_string = $update_privacy_query_string_beg . $update_privacy_query_string_cols_vals . $update_privacy_query_string_end;
-  echo $update_privacy_query_string;
-  // $update_privacy_query = pg_query($db, $update_privacy_query_string);
+  // echo $update_privacy_query_string;
+  $update_privacy_query = pg_query($db, $update_privacy_query_string);
 }
 
 
@@ -154,22 +178,24 @@ if ($update_privacy_query_string_cols_vals !== "") {
       </div>
     </nav>
     <div class="container profile_content" id="static_content">
-      <ul> 
-        <li>
-          <?php
-          if ($is_user) {
-            // echo "<p><a href=\"http://localhost:8080/editable_profile/?sid=" . $roommate['student_id'] . "\">Edit</a>";
-            echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" id=\"edit\">Edit</button>";
-          }
-          ?>
-        </li>
+      <?php
+      if ($is_user) {
+        echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" id=\"edit\">Edit</button>";
+        // show everything, as long as it has a value
+      }
+      else {
+        echo "no edit";
+        // show only if privacy is checked and has value
+      }
+      ?>
+      <ul>
         <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
         <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
         <li>dorm: <?php echo $student->getDorm(); ?></li>
-        <li>email: <?php echo $student->getEmail(); ?></li>
+        <li>email: <a <?php echo "href=\"mailto:" . $student->getEmail() . "\""; ?>><?php echo $student->getEmail(); ?></a></li>
         <li>year: <?php echo $student->getYear(); ?></li>
         <li>mailbox: <?php echo $student->getMSNum(); ?></li>
-        <li>phone number: <?php echo $student->getPhoneNum(); ?></li>
+        <li>phone number: <a class="static_phone_num" <?php echo "href=\"tel:" . $student->getPhoneNum() . "\""; ?>><?php echo $student->getPhoneNum(); ?></a></li>
         <li>roommates:
           <ul>
             <?php
@@ -213,7 +239,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           </div>
           <div class="col">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="preferred_name_privacy" id="preferred_name_privacy" <?php echo ($student->getPreferredNamePrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="preferred_name_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="preferred_name_privacy" id="preferred_name_privacy" <?php echo ($student->getPreferredNamePrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="preferred_name_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -225,7 +252,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           </div>
           <div class="col">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="phone_num_privacy" id="phone_num_privacy" <?php echo ($student->getPhoneNumPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="phone_num_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="phone_num_privacy" id="phone_num_privacy" <?php echo ($student->getPhoneNumPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="phone_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -233,11 +261,12 @@ if ($update_privacy_query_string_cols_vals !== "") {
         <div class="form-row">
           <div class="col form-group">
             <label for="alt_email">Alternate email address</label>
-            <input type="email" class="form-control" name="alt_email" id="alt_email" placeholder="noobmaster69@aol.com">
+            <input type="email" class="form-control" name="alt_email" id="alt_email" placeholder="noobmaster69@aol.com" <?php echo "value=\"" . $student->getAltEmail() . "\""; ?>>
           </div>
           <div class="col">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="alt_email_privacy" id="alt_email_privacy" <?php echo ($student->getAltEmailPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="alt_email_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="alt_email_privacy" id="alt_email_privacy" <?php echo ($student->getAltEmailPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="alt_email_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -253,7 +282,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           </div>
           <div class="col">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="profile_pic_privacy" id="profile_pic_privacy" <?php echo ($student->getProfilePicPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="profile_pic_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="profile_pic_privacy" id="profile_pic_privacy" <?php echo ($student->getProfilePicPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="profile_pic_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -262,7 +292,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           <div class="col">name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="name_privacy" id="name_privacy" <?php echo ($student->getNamePrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="name_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="name_privacy" id="name_privacy" <?php echo ($student->getNamePrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="name_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -271,7 +302,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           <div class="col">year: <?php echo $student->getYear(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="year_privacy" id="year_privacy" <?php echo ($student->getYearPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="year_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="year_privacy" id="year_privacy" <?php echo ($student->getYearPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="year_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -280,7 +312,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           <div class="col">email: <?php echo $student->getEmail(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="email_privacy" id="email_privacy" <?php echo ($student->getEmailPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="email_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="email_privacy" id="email_privacy" <?php echo ($student->getEmailPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="email_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -289,7 +322,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           <div class="col">MS#: <?php echo $student->getMSNum(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="ms_num_privacy" id="ms_num_privacy" <?php echo ($student->getMSNumPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="ms_num_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="ms_num_privacy" id="ms_num_privacy" <?php echo ($student->getMSNumPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="ms_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -298,7 +332,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           <div class="col">Searched num: <?php echo $student->getSearchedNum(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="searched_num_privacy" id="searched_num_privacy" <?php echo ($student->getSearchedNumPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="searched_num_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="searched_num_privacy" id="searched_num_privacy" <?php echo ($student->getSearchedNumPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="searched_num_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -307,7 +342,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           <div class="col">Allow to be searched by roommates</div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="roommates_privacy" id="roommates_privacy" <?php echo ($student->getRoommatesPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="roommates_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="roommates_privacy" id="roommates_privacy" <?php echo ($student->getRoommatesPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="roommates_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>
@@ -317,7 +353,8 @@ if ($update_privacy_query_string_cols_vals !== "") {
           <div class="col">room num: <?php echo $student->getRoomNum(); ?></div>
           <div class="col form-group">
             <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input privacy" name="dorm_privacy" id="dorm_privacy" <?php echo ($student->getDormPrivacy()) ? "checked" : ""; ?>>
+              <input type="hidden" name="dorm_privacy" value="0">
+              <input type="checkbox" class="custom-control-input privacy" value="1" name="dorm_privacy" id="dorm_privacy" <?php echo ($student->getDormPrivacy()) ? "checked" : ""; ?>>
               <label class="custom-control-label" for="dorm_privacy" data-toggle="tooltip" data-placement="right"><i class="fas fa-question-circle fa-sm"></i></label>
             </div>
           </div>

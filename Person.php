@@ -312,8 +312,8 @@ class StudentHelper extends Student {
 		$this->setRoommates();
 	}
 
-	private function psql_boolean ($value) {
-		return $value == "t";
+	public function psql_boolean ($value) {
+		return ($value == "t") ? 1 : 0;
 	}
 
 	public function get_all_privacy () {

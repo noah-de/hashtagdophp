@@ -85,12 +85,7 @@ foreach ($_POST as $key=>$value) {
       $update_privacy_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";
     }
     else {
-      if ((($key == "preferred_name") || ($key == "alt_email")) && (empty($form_value) || !isset($form_value))) {
-        $update_person_query_string_cols_vals .= " " . $key . " = NULL";
-      }
-      else {
-        $update_person_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";      
-      }
+      $update_person_query_string_cols_vals .= " " . $key . " = '" . $form_value . "',";
     }
   }
   // else if (!$cond_not_prof_pic) {
@@ -144,25 +139,25 @@ if ($update_privacy_query_string_cols_vals !== "") {
        <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
+            <a class="nav-link" href="https://www.westmont.edu/about">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/academics">ACADEMICS</a>
+            <a class="nav-link" href="https://www.westmont.edu/academics">Academics</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/admissions-aid">ADMISSIONS & AID</a>
+            <a class="nav-link" href="https://www.westmont.edu/admissions-aid">Admission & Aid</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/student-life">STUDENT LIFE</a>
+            <a class="nav-link" href="https://www.westmont.edu/student-life">Student Life</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/giving">GIVING</a>
+            <a class="nav-link" href="https://www.westmont.edu/giving">Giving</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
+            <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">Athletics</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../login/">LOGIN</a>
+            <a class="nav-link" href="../login/">Login</a>
           </li>
           <?php
           if (isset($_COOKIE['student_id'])) {
@@ -197,15 +192,15 @@ if ($update_privacy_query_string_cols_vals !== "") {
       }
       ?>
       <ul>
-        <li>name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
-        <li>preferred name: <?php echo (!empty($student->getPreferredName())) ? $student->getPreferredName() : ""; ?></li>
+        <li>Name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
+        <li>Preferred Name: <?php echo (!empty($student->getPreferredName())) ? $student->getPreferredName() : ""; ?></li>
         <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
-        <li>dorm: <?php echo $student->getDorm(); ?></li>
-        <li>email: <a <?php echo "href=\"mailto:" . $student->getEmail() . "\""; ?>><?php echo $student->getEmail(); ?></a></li>
-        <li>year: <?php echo $student->getYear(); ?></li>
-        <li>mailbox: <?php echo $student->getMSNum(); ?></li>
-        <li>phone number: <a class="static_phone_num" <?php echo "href=\"tel:" . $student->getPhoneNum() . "\""; ?>><?php echo $student->getPhoneNum(); ?></a></li>
-        <li>roommates:
+        <li>Dorm: <?php echo $student->getDorm(); ?></li>
+        <li>Email: <a <?php echo "href=\"mailto:" . $student->getEmail() . "\""; ?>><?php echo $student->getEmail(); ?></a></li>
+        <li>Year: <?php echo $student->getYear(); ?></li>
+        <li>Mailbox: <?php echo $student->getMSNum(); ?></li>
+        <li>Phone Number: <a class="static_phone_num" <?php echo "href=\"tel:" . $student->getPhoneNum() . "\""; ?>><?php echo $student->getPhoneNum(); ?></a></li>
+        <li>Roommate(s):
           <ul>
             <?php
               $getRoommatesInfo = $student->getRoommatesInfo();
@@ -242,7 +237,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
         <!-- <button type="button" class="btn btn-info btn-sm" id="save">Save</button> -->
         <div class="form-row">
           <div class="col form-group">
-            <label for="preferred_name">preferred name</label>
+            <label for="preferred_name">Preferred Name</label>
             <input type="text" class="form-control" id="preferred_name" aria-describedby="preferred_name-desc" name="preferred_name" placeholder="McLovin" <?php echo "value=\"" . $student->getPreferredName() . "\""; ?>>
             <small id="preferred_name-desc" class="form-text text-muted">Name you would prefer to go by.</small>
           </div>

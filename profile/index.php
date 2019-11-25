@@ -139,25 +139,25 @@ if ($update_privacy_query_string_cols_vals !== "") {
        <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/about">About</a>
+            <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/academics">Academics</a>
+            <a class="nav-link" href="https://www.westmont.edu/academics">ACADEMICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/admissions-aid">Admission & Aid</a>
+            <a class="nav-link" href="https://www.westmont.edu/admissions-aid">ADMISSIONS & AID</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/student-life">Student Life</a>
+            <a class="nav-link" href="https://www.westmont.edu/student-life">STUDENT LIFE</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.westmont.edu/giving">Giving</a>
+            <a class="nav-link" href="https://www.westmont.edu/giving">GIVING</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">Athletics</a>
+            <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="../login/">Login</a>
+            <a class="nav-link" href="../login/">LOGIN</a>
           </li>
           <?php
           if (isset($_COOKIE['student_id'])) {
@@ -185,7 +185,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
         echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" id=\"edit\">Edit</button>";
         // show everything, as long as it has a value
 
-        $student_info_shown = $student->gaylebeebe();
+      $student_info_shown = $student->gaylebeebe();
 
       }
       else {
@@ -223,21 +223,6 @@ if ($update_privacy_query_string_cols_vals !== "") {
         if(isset($student_info_shown['roommates'])) {
           $roommates_info = $student_info_shown['roommates'];
           foreach ($roommates_info as $roommate) {
-      ?>
-      <ul>
-        <li>Name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
-        <li>Preferred Name: <?php echo (!empty($student->getPreferredName())) ? $student->getPreferredName() : ""; ?></li>
-        <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
-        <li>Dorm: <?php echo $student->getDorm(); ?></li>
-        <li>Email: <a <?php echo "href=\"mailto:" . $student->getEmail() . "\""; ?>><?php echo $student->getEmail(); ?></a></li>
-        <li>Year: <?php echo $student->getYear(); ?></li>
-        <li>Mailbox: <?php echo $student->getMSNum(); ?></li>
-        <li>Phone Number: <a class="static_phone_num" <?php echo "href=\"tel:" . $student->getPhoneNum() . "\""; ?>><?php echo $student->getPhoneNum(); ?></a></li>
-        <li>Roommate(s):
-          <ul>
-            <?php
-              $getRoommatesInfo = $student->getRoommatesInfo();
-              foreach ($getRoommatesInfo as $roommate) {
                 echo "<li>";
                 echo "<img src=\"../images/" . $roommate['profile_pic_url'] . "\">";
                 echo "<p>" . $roommate['firstname'] . " " . $roommate['lastname'] . "</p>";
@@ -272,7 +257,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
         <!-- <button type="button" class="btn btn-info btn-sm" id="save">Save</button> -->
         <div class="form-row">
           <div class="col form-group">
-            <label for="preferred_name">Preferred Name</label>
+            <label for="preferred_name">preferred name</label>
             <input type="text" class="form-control" id="preferred_name" aria-describedby="preferred_name-desc" name="preferred_name" placeholder="McLovin" <?php echo "value=\"" . $student->getPreferredName() . "\""; ?>>
             <small id="preferred_name-desc" class="form-text text-muted">Name you would prefer to go by.</small>
           </div>
@@ -404,3 +389,6 @@ if ($update_privacy_query_string_cols_vals !== "") {
     </div>
   </body>
 </html>
+<?php
+  pg_close($db);
+?>

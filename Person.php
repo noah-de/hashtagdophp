@@ -348,6 +348,22 @@ class StudentHelper extends Student {
 		return $elements;
 	}
 
+	public function get_all_by_not_private () {
+		$elements = array("name","preferred_name","profile_pic","dorm","email","year","ms_num","phone_num","roommates");
+		return $this->get_selected_by_not_private($elements);
+	}
+
+	public function gaylebeebe () {
+		$selects = array("name","preferred_name","profile_pic","dorm","email","year","ms_num","phone_num","roommates");
+		$elements = array();
+		foreach ($selects as $item) {
+			if ($this->getter_by_name($item)) {
+				$elements[$item] = $this->getter_by_name($item);
+			}
+		}
+		return $elements;
+	}
+
 	public function getter_by_name ($name) {
 		switch ($name) {
 			case "preferred_name":
@@ -382,16 +398,32 @@ class StudentHelper extends Student {
 				return $this->getProfilePicPrivacy();
 				break;
 
+			case "name":
+				return $this->getFirstname() . " " . $this->getLastname();
+				break;
+
 			case "name_privacy":
 				return $this->getNamePrivacy();
+				break;
+
+			case "year":
+				return $this->getYear();
 				break;
 
 			case "year_privacy":
 				return $this->getYearPrivacy();
 				break;
 
+			case "email":
+				return $this->getEmail();
+				break;
+
 			case "email_privacy":
 				return $this->getEmailPrivacy();
+				break;
+
+			case "ms_num":
+				return $this->getMSNum();
 				break;
 
 			case "ms_num_privacy":
@@ -402,8 +434,16 @@ class StudentHelper extends Student {
 				return $this->getSearchedNumPrivacy();
 				break;
 
+			case "roommates":
+				return $this->getRoommatesInfo();
+				break;
+
 			case "roommates_privacy":
 				return $this->getRoommatesPrivacy();
+				break;
+
+			case "dorm":
+				return $this->getDorm();
 				break;
 
 			case "dorm_privacy":

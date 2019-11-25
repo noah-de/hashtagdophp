@@ -179,41 +179,61 @@ if ($update_privacy_query_string_cols_vals !== "") {
     <br>
     <div class="container profile_content" id="static_content">
       <?php
+
       if ($is_user) {
         echo "<button type=\"button\" class=\"btn btn-outline-info btn-sm\" id=\"edit\">Edit</button>";
         // show everything, as long as it has a value
+
+      $student_info_shown = $student->gaylebeebe();
+
       }
       else {
-        echo "no edit";
         // show only if privacy is checked and has value
-
-
+        $student_info_shown = $student->get_all_by_not_private();
       }
-      ?>
-      <ul>
-        <li>Name: <?php echo $student->getFirstname() . " " . $student->getLastname(); ?></li>
-        <li>Preferred Name: <?php echo (!empty($student->getPreferredName())) ? $student->getPreferredName() : ""; ?></li>
-        <li><img src="../images/<?php echo $student->getProfilePicURL(); ?>"></li>
-        <li>Dorm: <?php echo $student->getDorm(); ?></li>
-        <li>Email: <a <?php echo "href=\"mailto:" . $student->getEmail() . "\""; ?>><?php echo $student->getEmail(); ?></a></li>
-        <li>Year: <?php echo $student->getYear(); ?></li>
-        <li>Mailbox: <?php echo $student->getMSNum(); ?></li>
-        <li>Phone Number: <a class="static_phone_num" <?php echo "href=\"tel:" . $student->getPhoneNum() . "\""; ?>><?php echo $student->getPhoneNum(); ?></a></li>
-        <li>Roommate(s):
-          <ul>
-            <?php
-              $getRoommatesInfo = $student->getRoommatesInfo();
-              foreach ($getRoommatesInfo as $roommate) {
+
+        echo "<ul>";
+        if(isset($student_info_shown['name'])) {
+          echo "<li>name: " . $student_info_shown['name'] . "</li>";
+        }
+        if(isset($student_info_shown['preferred_name'])) {
+          echo "<li>preferred name: " . $student_info_shown['preferred_name'] . "</li>";
+        }
+        if(isset($student_info_shown['profile_pic'])) {
+          echo "<li><img src=\"../images/" . $student_info_shown['profile_pic'] . "\"></li>";
+        }
+        if(isset($student_info_shown['dorm'])) {
+          echo "<li>dorm: " . $student_info_shown['dorm'] . "</li>";
+        }
+        if(isset($student_info_shown['email'])) {
+          echo "<li>email: <a href=\"mailto:" . $student_info_shown['email'] . "\"";
+          echo ">" . $student_info_shown['email'] . "</a></li>";
+        }
+        if(isset($student_info_shown['year'])) {
+          echo "<li>year: " . $student_info_shown['year'] . "</li>";
+        }
+        if(isset($student_info_shown['ms_num'])) {
+          echo "<li>mailbox: " . $student_info_shown['ms_num'] . "</li>";
+        }
+        if(isset($student_info_shown['phone_num'])) {
+          echo "<li>phone number: <a class=\"static_phone_num\" href=\"tel:" . $student_info_shown['phone_num'] . "\"";
+          echo ">" . $student_info_shown['phone_num'] . "</a></li>";
+        }
+        if(isset($student_info_shown['roommates'])) {
+          $roommates_info = $student_info_shown['roommates'];
+          foreach ($roommates_info as $roommate) {
                 echo "<li>";
                 echo "<img src=\"../images/" . $roommate['profile_pic_url'] . "\">";
                 echo "<p>" . $roommate['firstname'] . " " . $roommate['lastname'] . "</p>";
                 echo "<p><a href=\"./?sid=" . $roommate['student_id'] . "\">Profile</a>";
                 echo "</li>";
               }
-            ?>
-          </ul>
-        </li>
-      </ul>
+        }
+
+        echo "</ul>";
+
+      ?>
+
     </div>
     <!-- 
       -- TODO:

@@ -219,6 +219,9 @@ if ($update_privacy_query_string_cols_vals !== "") {
           echo "<li>phone number: <a class=\"static_phone_num\" href=\"tel:" . $student_info_shown['phone_num'] . "\"";
           echo ">" . $student_info_shown['phone_num'] . "</a></li>";
         }
+
+        echo "<li>roommates:";
+        echo "<ul>";
         if(isset($student_info_shown['roommates'])) {
           $roommates_info = $student_info_shown['roommates'];
           foreach ($roommates_info as $roommate) {
@@ -229,6 +232,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
                 echo "</li>";
               }
         }
+        echo "</ul></li>";
 
         echo "</ul>";
 

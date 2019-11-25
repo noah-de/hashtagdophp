@@ -25,6 +25,7 @@ $search_columns = "student_id, firstname, lastname, dorm, searched_num, profile_
 
 $lowercase_basic_search_query = strtolower($basic_search_query);
 $reg_search_query_string = "SELECT $search_columns FROM person WHERE '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || firstname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || lastname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || preferred_name || '%');"; // this query gets more and more fucked every commit
+// var_dump($reg_search_query_string);
 $reg_search_query = pg_query($db, $reg_search_query_string);
 // pg_fetch_all moved to bottom
 
@@ -51,7 +52,7 @@ function create_incrementer_query_str ($student_ids) {
  * 
  */
 
-if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['basic_search_query']) || !isset($_POST['basic_search_query']))) {
+if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
   $query_string = "SELECT $search_columns FROM person ORDER BY lastname, firstname DESC;";
   $prepare_query = pg_query($db, $query_string);
   $show_all_results = pg_fetch_all($prepare_query);
@@ -82,25 +83,25 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['ba
    <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/about">ABOUT</a>
+        <a class="nav-link" href="https://www.westmont.edu/about">About</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/academics">ACADEMICS</a>
+        <a class="nav-link" href="https://www.westmont.edu/academics">Academics</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/admissions-aid">ADMISSIONS & AID</a>
+        <a class="nav-link" href="https://www.westmont.edu/admissions-aid">Admissions & Aid</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/student-life">STUDENT LIFE</a>
+        <a class="nav-link" href="https://www.westmont.edu/student-life">Student Life</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://www.westmont.edu/giving">GIVING</a>
+        <a class="nav-link" href="https://www.westmont.edu/giving">Giving</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">ATHLETICS</a>
+        <a class="nav-link" href="https://athletics.westmont.edu/index.aspx">Athletics</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="./login/">LOGIN</a>
+        <a class="nav-link" href="./login/">Login</a>
       </li>
       <?php
       if (isset($_COOKIE['student_id'])) {
@@ -123,7 +124,8 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['ba
 
 <div class="hero-image">
   <div class="hero-text" align="center">
-    <h1>Welcome to Westmont Student Finder</h1>
+    <h1>Welcome to Westmont Student Finder!</h1>
+    <h2> Find Your Community Below </h2>
   </div>
 </div>
 
@@ -142,13 +144,13 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['ba
 			</ul>
 			<div class="tab-content" id="searches_content">
 			  <div class="tab-pane fade show active" id="reg" role="tabpanel" aria-labelledby="reg-tab">
-			  	<!-- <div class="container" id="reg_search_cont"> -->
+			  		<form method="POST" action="./" name="show-all-form" id="show-all-form"><input type="hidden" name="show-all" value="show-all"><!-- <input type="submit" name="show-all-submit" value="show-all-submit" id="show-all-submit"> --></form>
 					  <div class="row" id="reg_search_cont">
 					    <div class="col-md-12">
 					      <form method="POST" action="./" name="reg">
 					        <div class="input-group mb-3">
 					        	<div class="input-group-prepend">
-					            <button class="btn btn-outline-secondary" tabindex="-1" id="show-all">Show all</button>
+					            <button class="btn btn-outline-secondary" tabindex="-1" id="show-all-btn" form="show-all-form">Show all</button>
 					          </div>
 					          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
 					          <?php 
@@ -170,11 +172,11 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['ba
 					    		<div class="form-row">
 								    <div class="col form-group">
 								    	<label for="adv_firstname">First name</label>
-									    <input type="text" class="form-control" id="adv_firstname" name="adv_firstname" placeholder="Riley">
+									    <input type="text" class="form-control" id="adv_firstname" name="adv_firstname" placeholder="Jane">
 								    </div>
 								    <div class="col form-group">
 								    	<label for="adv_lastname">Last name</label>
-									    <input type="text" class="form-control" id="adv_lastname" name="adv_lastname" placeholder="Jackson">
+									    <input type="text" class="form-control" id="adv_lastname" name="adv_lastname" placeholder="Doe">
 								    </div>
 								  </div>
 								  <div class="form-row">
@@ -198,7 +200,7 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all']) && (empty($_POST['ba
 								  <div class="form-row">
 								    <div class="col form-group">
 								  		<label for="adv_roommates">Roommates with</label>
-									    <input type="text" class="form-control" id="adv_roommates" name="adv_roommates" placeholder="Dylan Monacelli">
+									    <input type="text" class="form-control" id="adv_roommates" name="adv_roommates" placeholder="Gayle Bebee">
 							  		</div>
 								  </div>
 								  <div class="form-row">

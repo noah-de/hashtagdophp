@@ -26,7 +26,7 @@ $basic_search_query = $_POST['basic_search_query'];
 $search_columns = "student_id, firstname, lastname, dorm, searched_num, profile_pic_url";
 
 $lowercase_basic_search_query = strtolower($basic_search_query);
-$reg_search_query_string = "SELECT $search_columns FROM person WHERE '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || firstname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || lastname || '%') OR '" . $lowercase_basic_search_query . "' LIKE LOWER('%' || preferred_name || '%');"; // this query gets more and more fucked every commit
+$reg_search_query_string = "SELECT $search_columns FROM person WHERE LOWER('%' || firstname || '%') LIKE '" . $lowercase_basic_search_query . "' OR LOWER('%' || lastname || '%') LIKE '" . $lowercase_basic_search_query . "' OR LOWER('%' || preferred_name || '%') LIKE '" . $lowercase_basic_search_query . "';"; // this query gets more and more fucked every commit
 // var_dump($reg_search_query_string);
 $reg_search_query = pg_query($db, $reg_search_query_string);
 // pg_fetch_all moved to bottom
@@ -59,9 +59,8 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
   $prepare_query = pg_query($db, $query_string);
   $show_all_results = pg_fetch_all($prepare_query);
 }
-
 if (!empty($_POST['adv_checker']) && isset($_POST['adv_checker'])) {
-	$adv_query_string = "SELECT $search_columns FROM person ORDER BY lastname, firstname DESC;";
+	$adv_query_string = "SELECT $search_columns FROM person WHERE  ORDER BY lastname, firstname DESC;";
 	$adv_prepare_query = pg_query($db, $query_string);
 	$adv_results = pg_fetch_all($prepare_query);
 }
@@ -208,8 +207,28 @@ if (!empty($_POST['adv_checker']) && isset($_POST['adv_checker'])) {
 								  </div>
 								  <div class="form-row">
 								    <div class="col form-group">
-								  		<label for="adv_roommates">Roommates with</label>
-									    <input type="text" class="form-control" id="adv_roommates" name="adv_roommates" placeholder="Gayle Bebee">
+								  		<label for="adv_year">Year</label>
+									    <select class="form-control" id="adv_year" name="adv_year">
+									    	<option selected="selected" disabled>Pick a year</option>
+									    	<option value="1">1</option>
+									    	<option value="2">2</option>
+									    	<option value="3">3</option>
+									    	<option value="4">4</option>
+									    	<option value="5">5</option>
+									    </select>
+							  		</div>
+							  		<div class="col form-group">
+								  		<label for="adv_roommates">Searched between <i>x</i> and <i>y</i> number of times</label>
+										<div class="input-group">
+											<div class="input-group-prepend">
+											    <span class="input-group-text">From</span>
+											</div>
+										    <input type="number" class="form-control" id="adv_searched_num_from" name="adv_searched_num_from" placeholder="69">
+										    <input type="number" class="form-control" id="adv_searched_num_to" name="adv_searched_num_to" placeholder="420">
+										    <div class="input-group-append">
+											    <span class="input-group-text">To</span>
+											</div>
+										</div>
 							  		</div>
 								  </div>
 								  <div class="form-row">

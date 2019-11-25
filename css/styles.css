@@ -182,3 +182,7 @@ body, html {
   color: #fff;
   background-color: rgb(163, 30, 55);
 }
+
+#adv_searched_num_to {
+  text-align: right;
+}

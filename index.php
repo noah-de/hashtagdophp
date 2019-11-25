@@ -60,9 +60,9 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
   $show_all_results = pg_fetch_all($prepare_query);
 }
 if (!empty($_POST['adv_checker']) && isset($_POST['adv_checker'])) {
-	$adv_query_string = "SELECT $search_columns FROM person WHERE  ORDER BY lastname, firstname DESC;";
-	$adv_prepare_query = pg_query($db, $query_string);
-	$adv_results = pg_fetch_all($prepare_query);
+	$adv_query_string = "SELECT $search_columns FROM person WHERE searched_num > 69 AND searched_num < 420 ORDER BY lastname, firstname DESC;";
+	// $adv_prepare_query = pg_query($db, $adv_query_string);
+	// $adv_results = pg_fetch_all($adv_prepare_query);
 }
 
 ?>
@@ -120,7 +120,7 @@ if (!empty($_POST['adv_checker']) && isset($_POST['adv_checker'])) {
 
 			  echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
 			    echo "<a class=\"dropdown-item\" href=\"profile/?sid=" . $cookie_studentID . "\">View Profile</a>";
-			    echo "<a class=\"dropdown-item\" href=\"logout\">Logout</a>";
+			    echo "<a class=\"dropdown-item\" href=\"./logout\">Logout</a>";
 			  echo "</div>";
 	      echo "</li>";
   	  }
@@ -253,9 +253,12 @@ if (!empty($_POST['adv_checker']) && isset($_POST['adv_checker'])) {
 		$search_results = pg_fetch_all($reg_search_query);
 
 		// var_dump($search_results);
-      if (!empty($search_results) || !empty($show_all_results)) {
+      if (!empty($search_results) || !empty($show_all_results) || !empty($adv_results)) {
       	if ((!empty($show_all_results)) && (count($show_all_results) > 0)) {
       		$search_results = $show_all_results;
+      	}
+      	else if ((!empty($adv_results)) && (count($adv_results) > 0)) {
+      		$search_results = $adv_results;
       	}
 
       	$results_ids = array_column($search_results, 'student_id');

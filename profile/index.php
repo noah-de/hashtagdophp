@@ -168,7 +168,7 @@ if ($update_privacy_query_string_cols_vals !== "") {
 
             echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
               echo "<a class=\"dropdown-item\" href=\"./?sid=" . $cookie_studentID . "\">View Profile</a>";
-              echo "<a class=\"dropdown-item\" href=\"../logout/\">Logout</a>";
+              echo "<a class=\"dropdown-item\" href=\"../logout\">Logout</a>";
             echo "</div>";
             echo "</li>";
           }

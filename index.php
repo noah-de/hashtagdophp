@@ -3,6 +3,8 @@ if (!isset($_COOKIE['student_id'])) {
   header("Location: ./login/");
 }
 
+require('./Person.php');
+
 $db_con['host'] = "bminer-apps";
 $db_con['port'] = "5433";
 $db_con['user'] = "dophp";

@@ -1,13 +1,12 @@
 <?php
 
-require('../Person.php');
-
 if (!isset($_COOKIE['student_id'])) {
   header("Location: ../login/");
 }
 else if ($_COOKIE['student_id'] == $_GET['sid']) {
   $is_user = true; // if this is true, this page is the presently logged-in users profile page
 }
+require('../Person.php');
 
 $cookie_studentID = $_COOKIE['student_id'];
 
@@ -161,17 +160,17 @@ if ($update_privacy_query_string_cols_vals !== "") {
           </li>
           <?php
           if (isset($_COOKIE['student_id'])) {
-          echo "<li class=\"nav-item\"id=\"logged_in_dropdown\">";
-            echo "<div class=\"dropdown\">";
-          echo "<a class=\"btn btn-secondary dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
-          echo "Welcome, " . $user_info_result['firstname'];
-          echo "</a>";
+            echo "<li class=\"nav-item\"id=\"logged_in_dropdown\">";
+              echo "<div class=\"dropdown\">";
+            echo "<a class=\"btn btn-secondary dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">";
+            echo "Welcome, " . $user_info_result['firstname'];
+            echo "</a>";
 
-          echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
-            echo "<a class=\"dropdown-item\" href=\"./?sid=" . $cookie_studentID . "\">View Profile</a>";
-            echo "<a class=\"dropdown-item\" href=\"../logout/\">Logout</a>";
-          echo "</div>";
-          echo "</li>";
+            echo "<div class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\">";
+              echo "<a class=\"dropdown-item\" href=\"./?sid=" . $cookie_studentID . "\">View Profile</a>";
+              echo "<a class=\"dropdown-item\" href=\"../logout/\">Logout</a>";
+            echo "</div>";
+            echo "</li>";
           }
           ?>
         </ul>

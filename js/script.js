@@ -61,7 +61,8 @@ $(function() {
 	$('#adv_dorm').change(function () {
 		$('#adv_section').html('');
 		var dorm = this.value;
-			('#adv_section').append("<option selected=\"selected\" disabled>Pick a section</option>");
+		$('#adv_section').append("<option selected=\"selected\" disabled>Pick a section</option>");
+		
 		for (var i = 0; i < dormSections[dorm].length; i++) {
 			$('#adv_section').append("<option value=\"" + dormSections[dorm][i] + "\">" + dormSections[dorm][i] + "</option>");
 		}

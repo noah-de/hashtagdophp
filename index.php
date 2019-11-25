@@ -60,6 +60,12 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
   $show_all_results = pg_fetch_all($prepare_query);
 }
 
+if (!empty($_POST['adv_checker']) && isset($_POST['adv_checker'])) {
+	$adv_query_string = "SELECT $search_columns FROM person ORDER BY lastname, firstname DESC;";
+	$adv_prepare_query = pg_query($db, $query_string);
+	$adv_results = pg_fetch_all($prepare_query);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -151,7 +157,7 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 					    <div class="col-md-12">
 					      <form method="POST" action="./" name="reg">
 					        <div class="input-group mb-3">
-					        	<div class="input-group-prepend">
+					          <div class="input-group-prepend">
 					            <button class="btn btn-outline-secondary" tabindex="-1" id="show-all-btn" form="show-all-form">Show all</button>
 					          </div>
 					          <input name="basic_search_query" type="text" class="form-control" placeholder="Search..." aria-label="Search for a student" aria-describedby="basic-addon2" 
@@ -170,7 +176,8 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
 			  	<!-- <div class="container" id="adv_search_cont"> -->
 						<div class="row" id="adv_search_cont">
 					    <div class="col-md-12">
-					      <form method="POST" action="./" name="reg">
+					      <form method="POST" action="./" name="adv_form">
+					      		<input type="hidden" name="adv_checker" id="adv_checker" value="adv_checker">
 					    		<div class="form-row">
 								    <div class="col form-group">
 								    	<label for="adv_firstname">First name</label>

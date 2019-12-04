@@ -26,10 +26,12 @@ $basic_search_query = $_POST['basic_search_query'];
 $search_columns = "student_id, firstname, lastname, dorm, searched_num, profile_pic_url";
 
 $lowercase_basic_search_query = strtolower($basic_search_query);
-$reg_search_query_string = "SELECT $search_columns FROM person WHERE LOWER('%' || firstname || '%') LIKE '" . $lowercase_basic_search_query . "' OR LOWER('%' || lastname || '%') LIKE '" . $lowercase_basic_search_query . "' OR LOWER('%' || preferred_name || '%') LIKE '" . $lowercase_basic_search_query . "';"; // this query gets more and more fucked every commit
+$reg_search_query_string = "SELECT $search_columns FROM person WHERE LOWER(firstname) LIKE '" . $lowercase_basic_search_query . "' OR LOWER(lastname) LIKE '" . $lowercase_basic_search_query . "' OR LOWER(preferred_name) LIKE '" . $lowercase_basic_search_query . "';"; // this query gets more and more fucked every commit
 // var_dump($reg_search_query_string);
 $reg_search_query = pg_query($db, $reg_search_query_string);
 // pg_fetch_all moved to bottom
+
+// var_dump($reg_search_query_string);
 
 function create_incrementer_query_str ($student_ids) {
 	$query_beg = "UPDATE person SET searched_num = searched_num + 1 WHERE student_id = '";
@@ -43,11 +45,6 @@ function create_incrementer_query_str ($student_ids) {
 	return $query_whole;
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * TODO:													   *
- * 	 parse out adv search form and write corresponding queries *
- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
 /*
  *
  * Get all 
@@ -60,9 +57,9 @@ if (!empty($_POST['show-all']) && isset($_POST['show-all'])) {
   $show_all_results = pg_fetch_all($prepare_query);
 }
 if (!empty($_POST['adv_checker']) && isset($_POST['adv_checker'])) {
-	$adv_query_string = "SELECT $search_columns FROM person WHERE searched_num > 69 AND searched_num < 420 ORDER BY lastname, firstname DESC;";
-	// $adv_prepare_query = pg_query($db, $adv_query_string);
-	// $adv_results = pg_fetch_all($adv_prepare_query);
+	$adv_query_string = "SELECT $search_columns FROM person WHERE searched_num > 69 AND searched_num < 420 AND dorm = 'Armington' ORDER BY searched_num DESC;";
+	$adv_prepare_query = pg_query($db, $adv_query_string);
+	$adv_results = pg_fetch_all($adv_prepare_query);
 }
 
 ?>
@@ -260,7 +257,7 @@ if (!empty($_POST['adv_checker']) && isset($_POST['adv_checker'])) {
       	else if ((!empty($adv_results)) && (count($adv_results) > 0)) {
       		$search_results = $adv_results;
       	}
-
+      	// var_dump($_POST);
       	$results_ids = array_column($search_results, 'student_id');
 		$increment_results_query_string = create_incrementer_query_str($results_ids);
 		$increment_results_query = pg_query($increment_results_query_string);

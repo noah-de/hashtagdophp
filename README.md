@@ -1,8 +1,9 @@
 # hashtagdophp
 Updated stalkernet
-#Disclaimer: If you aren't on campus, the database will not connect (since it is locally run off Bryan's server)
 
-##What It Do
+**Disclaimer**: If you aren't on campus, the database will not connect (since it is locally run off Bryan's server)
+
+## What It Does
 >Stalkernet is used to find information about people on campus 
 >First, you log in (your login will be nspahn, password is password) 
 > Then, you have the ability to look up someone by name, in this case the people in our group or you can use the advanced search to look up specifics 
